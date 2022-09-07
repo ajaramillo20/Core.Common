@@ -11,10 +11,10 @@ namespace Core.Common.Model.Transaccion
     {
         public TransaccionBase()
         {
-            Resultado = new Mensaje(10000, "OK", false, null);
+            Respuesta = new Mensaje(10000, "OK", false, null);
             Auditoria = new Auditoria();
             Terminal = new Terminal();
-            DatosApi = new DatosAPI();
+            Endpoint = new Endpoint();
             FechaHoraTransaccion = DateTime.Now;
         }
         public string TokenJWT { get; set; }
@@ -22,8 +22,8 @@ namespace Core.Common.Model.Transaccion
         public DateTime FechaHoraTransaccion { get; set; }
 
         public Terminal Terminal { get; set; }
-        public DatosAPI DatosApi { get; set; }
-        public Mensaje Resultado { get; set; }
+        public Endpoint Endpoint { get; set; }
+        public Mensaje Respuesta { get; set; }
         public Auditoria Auditoria { get; set; }
     }
 }

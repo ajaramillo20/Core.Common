@@ -1,9 +1,9 @@
 ﻿using Core.Common.Model.Catalogos;
 using Core.Common.Model.General;
 
-namespace Core.Common.Util.Helper
+namespace Core.Common.Util.Helper.Datos
 {
-    public static class CatalogosHelper 
+    public static class CatalogosHelper
     {
         private static DetalleCatalogo GetObtenerItemPorDefecto()
         {
@@ -66,7 +66,7 @@ namespace Core.Common.Util.Helper
 
         }
 
-        
+
 
         public static Catalogo ObtenerCatalogoIFIS(bool defaultItem = false)
         {

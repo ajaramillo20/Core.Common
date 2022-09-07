@@ -1,0 +1,10 @@
+﻿
+COMMANDO IMPORTAR 
+Scaffold-DbContext "Server=SRVWINBDWH\ORIGINARSA;Initial Catalog=BD_CONFIGURACIONES;User id=dpaz; Password=P@ssw0rd.01" Microsoft.EntityFrameworkCore.SqlServer -o EFCore\DBModels -UseDatabaseNames -NoPluralize
+
+Scaffold-DbContext "Server=SRVWINBDWH\ORIGINARSA;Initial Catalog=BD_CONFIGURACIONES;User id=dpaz; Password=P@ssw0rd.01" Microsoft.EntityFrameworkCore.SqlServer -o EFCore\DBModels -UseDatabaseNames -NoPluralize -Force
+
+C:\Users\csilva\.nuget\packages\microsoft.entityframeworkcore\6.0.8\
+C:\Users\csilva\.nuget\packages\microsoft.entityframeworkcore.sqlserver\6.0.8\
+C:\Users\csilva\.nuget\packages\microsoft.entityframeworkcore.design\6.0.8\
+C:\Users\csilva\.nuget\packages\microsoft.entityframeworkcore.tools\6.0.8\

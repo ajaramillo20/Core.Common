@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Core.Common.Model.General
+namespace Core.Common.Model.Transaccion.Respuesta
 {
     public class EstructuraBase<T>
         where T : class

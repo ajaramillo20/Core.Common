@@ -5,7 +5,7 @@ using System.IO;
 using System.Linq;
 
 
-namespace Core.Common.Util.Helper
+namespace Core.Common.Util.Helper.API
 {
     public static class ExcelFileHelper
     {
@@ -66,7 +66,7 @@ namespace Core.Common.Util.Helper
 
         //        case "IFI-012":  //CT
         //            return FormatosOfertaIFIs.ConstruirExcelOferta_CooperativaTulcan(listaOperacionesGAF);
-                
+
         //        case "IFI-014":  //MUPI
         //            return FormatosOfertaIFIs.ConstruirExcelOferta_MutualistaPichincha(listaOperacionesGAF);
 
@@ -76,7 +76,7 @@ namespace Core.Common.Util.Helper
         //}
 
 
-       
+
 
         //public static MemoryStream GenerarExcelFormatoIFI<T,R>(string codigoIFI, IEnumerable<T> datosBase, IEnumerable<R> datosParametros)
         //{
@@ -146,7 +146,7 @@ namespace Core.Common.Util.Helper
         //            }
         //            else
         //            {
-                       
+
         //                return null;
 
         //            }

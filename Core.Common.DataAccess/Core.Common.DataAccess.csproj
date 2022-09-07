@@ -6,26 +6,33 @@
     <Nullable>enable</Nullable>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <Version>1.1.0</Version>
-    <Authors>$(Authors)</Authors>
-    <Company>Originarsa SA</Company>
-    <RepositoryUrl>http://srvwintfs/Originarsa/Microservicios/_packaging/Core.Common/nuget/v3/index.json</RepositoryUrl>
-    <PackageIcon>logoCommonProcessTemplate.jpg</PackageIcon>
+    <PackageIcon>logoCommonDAL.jpg</PackageIcon>
   </PropertyGroup>
 
   <ItemGroup>
-    <None Include="..\Docs.Common\Assets\logoCommonProcessTemplate.jpg">
+    <Folder Include="EFCore\DBModels\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\Docs.Common\Assets\logoCommonDAL.jpg">
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
     </None>
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Dapper" Version="2.0.123" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.5" />
+    <PackageReference Include="MySql.Data" Version="8.0.30" />
+    <PackageReference Include="System.Data.SqlClient" Version="4.8.3" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Core.Common.Model\Core.Common.Model.csproj" />
-    <ProjectReference Include="..\Core.Common.Util\Core.Common.Util.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
   </ItemGroup>
 
 </Project>

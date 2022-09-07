@@ -25,9 +25,7 @@ namespace Core.Common.Model.General
     }
 
     public static class ConstantesCatalogo
-    {
-        // NOMBRES DE CATALOGOS
-       
+    {      
         /// <summary>
         /// 
         /// </summary>
@@ -46,6 +44,5 @@ namespace Core.Common.Model.General
         public const string DATA_VALUE_FIELD = "Valor";
         public const string DATA_VALUE_TEXT = "Nombre";
     }
-
 
 }

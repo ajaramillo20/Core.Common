@@ -1,15 +1,13 @@
-﻿using Core.Common.BusinessLogic.ProcessTemplate;
-using Core.Common.Model.General;
-using Core.Common.Model.Transaccion;
-using Core.Common.ProcessTemplate;
+﻿using Core.Common.Model.Transaccion;
+using Core.Common.Model.Transaccion.Respuesta;
+using Core.Common.ProcessTemplate.InternalBusinessLogic;
 using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Core.Common.Util.Helper
+namespace Core.Common.ProcessTemplate.Helper
 {
+    /// <summary>
+    /// Clase encargada de hacer el llamado a los metodos de CRUD Process template.
+    /// </summary>
     public static class ControladorHelper
     {
 
@@ -19,6 +17,7 @@ namespace Core.Common.Util.Helper
             where Logica : IObtener<Transaccion, Response>
         {
             EstructuraBase<Transaccion> transaccionBLL = new EstructuraBase<Transaccion>(transaccion);
+            transaccion.Endpoint.LogicaInyectada = ObtenerNombreLogicaInyectada(inyectedLogic.ToString());
             return new CrudProcessTemplate<Transaccion, Response>(inyectedLogic).Obtener(transaccionBLL);
         }
 
@@ -28,6 +27,7 @@ namespace Core.Common.Util.Helper
             where Logica : IObtenerTodos<Transaccion, Response>
         {
             EstructuraBase<Transaccion> transaccionBLL = new EstructuraBase<Transaccion>(transaccion);
+            transaccion.Endpoint.LogicaInyectada = ObtenerNombreLogicaInyectada(inyectedLogic.ToString());
             return new CrudProcessTemplate<Transaccion, Response>(inyectedLogic).ObtenerTodos(transaccionBLL);
         }
 
@@ -37,6 +37,7 @@ namespace Core.Common.Util.Helper
             where Logica : IInsertar<Transaccion, Response>
         {
             EstructuraBase<Transaccion> transaccionBLL = new EstructuraBase<Transaccion>(transaccion);
+            transaccion.Endpoint.LogicaInyectada = ObtenerNombreLogicaInyectada(inyectedLogic.ToString());
             return new CrudProcessTemplate<Transaccion, Response>(inyectedLogic).Insertar(transaccionBLL);
         }
 
@@ -46,6 +47,7 @@ namespace Core.Common.Util.Helper
             where Logica : IActualizar<Transaccion, Response>
         {
             EstructuraBase<Transaccion> transaccionBLL = new EstructuraBase<Transaccion>(transaccion);
+            transaccion.Endpoint.LogicaInyectada = ObtenerNombreLogicaInyectada(inyectedLogic.ToString());
             return new CrudProcessTemplate<Transaccion, Response>(inyectedLogic).Actualizar(transaccionBLL);
         }
 
@@ -55,6 +57,7 @@ namespace Core.Common.Util.Helper
             where Logica : IEliminar<Transaccion, Response>
         {
             EstructuraBase<Transaccion> transaccionBLL = new EstructuraBase<Transaccion>(transaccion);
+            transaccion.Endpoint.LogicaInyectada = ObtenerNombreLogicaInyectada(inyectedLogic.ToString());
             return new CrudProcessTemplate<Transaccion, Response>(inyectedLogic).Eliminar(transaccionBLL);
         }
 
@@ -64,7 +67,18 @@ namespace Core.Common.Util.Helper
             where Logica : IProcesarTransaccion<Transaccion, Response>
         {
             EstructuraBase<Transaccion> transaccionBLL = new EstructuraBase<Transaccion>(transaccion);
+            transaccion.Endpoint.LogicaInyectada = ObtenerNombreLogicaInyectada(inyectedLogic.ToString());
             return new CrudProcessTemplate<Transaccion, Response>(inyectedLogic).ProcesarTransaccion(transaccionBLL);
+        }
+
+        public static EstructuraBase<Response> ProcesarTransaccionSimple<Transaccion, Response, Logica>(this ControllerBase controlador, Logica inyectedLogic, Transaccion transaccion)
+            where Transaccion : TransaccionBase, new()
+            where Response : class, new()
+            where Logica : IProcesarTransaccionSimple<Transaccion, Response>
+        {
+            EstructuraBase<Transaccion> transaccionBLL = new EstructuraBase<Transaccion>(transaccion);
+            transaccion.Endpoint.LogicaInyectada = ObtenerNombreLogicaInyectada(inyectedLogic.ToString());
+            return new CrudProcessTemplate<Transaccion, Response>(inyectedLogic).ProcesarTransaccionSimple(transaccionBLL);
         }
 
         public static W GenerarTransaccion<W>(this ControllerBase controlador)
@@ -74,9 +88,22 @@ namespace Core.Common.Util.Helper
             return transaccion;
         }
 
+        public static W GenerarTransaccion<W, Request>(this ControllerBase controlador, Request request)
+            where W : TransaccionBase, new()
+            where Request : class
+        {
+            W transaccion = new W();
+            return transaccion;
+        }
 
 
+        private static string ObtenerNombreLogicaInyectada(string logica)
+        {
+            string[] listaNamespace = logica.Split('.');
+            string resultado = listaNamespace.LastOrDefault().Replace("IN", string.Empty);
+            return resultado;
+        }
 
-
+      
     }
 }

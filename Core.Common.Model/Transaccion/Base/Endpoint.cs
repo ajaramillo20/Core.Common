@@ -6,10 +6,11 @@ using System.Threading.Tasks;
 
 namespace Core.Common.Model.Transaccion.Base
 {
-    public class DatosAPI
+    public class Endpoint
     {
-        public DatosAPI() { }
+        public Endpoint() { }
 
+        public string LogicaInyectada { get; set; }
         public string Accion { get; set; }
         public string Controlador { get; set; }
         public string Metodo { get; set; }

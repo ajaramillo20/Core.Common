@@ -1,14 +1,14 @@
 ﻿using System.Net;
 using System.Net.Mail;
 
-namespace Core.Common.Util.Helper
+namespace Core.Common.Util.Helper.API
 {
     public static class NotificacionesHelper
     {
 
-         
 
-        public class DatosAdjuntos 
+
+        public class DatosAdjuntos
         {
             public string Ruta { get; set; }
             public string Nombre { get; set; }

@@ -18,6 +18,7 @@ namespace Core.Common.Model.Transaccion.Base
         /// <param name="fuenteError">Namespace de la funte de error</param>
         public Mensaje(int codigoRespuesta, string mensajeRespuesta, bool huboError, string fuenteError)
         {
+            Id = Guid.NewGuid();
             CodigoRespuesta = codigoRespuesta;
             FuenteError = fuenteError;
             MensajeRespuesta = mensajeRespuesta;
@@ -52,6 +53,6 @@ namespace Core.Common.Model.Transaccion.Base
         /// <summary>
         /// Propiedad set que permite setear el código de respuesta de la ejecución
         /// </summary>
-        public int CodigoInternoRespuesta { get; set; }
+        public int CodigoInternoRespuesta { set { CodigoInternoRespuesta = 10000; } }
     }
 }

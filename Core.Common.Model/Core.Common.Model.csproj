@@ -5,11 +5,15 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
-    <Version>$(VersionPrefix)</Version>
+    <Version>1.1.0</Version>
+    <PackageIcon>logoCommonModel.jpg</PackageIcon>
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Respuesta\" />
+    <None Include="..\Docs.Common\Assets\logoCommonModel.jpg">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
   </ItemGroup>
 
 </Project>

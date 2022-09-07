@@ -1,43 +1,45 @@
-﻿using Core.Common.Util.Modelos.General;
-using Core.Common.Util.Modelos.Respuesta;
+﻿using Core.Common.DataAccess.Procesos.API;
+using Core.Common.Model.Configuracion.API;
+using Core.Common.Model.General;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Core.Common.Util.Helper
+namespace Core.Common.Util.Helper.Internal
 {
     public static class MapHelper
     {
+        private const string NOMBRE_VARIABLE_LOGICA_INYECTADA = "Endpoint.LogicaInyectada";
 
-        public static R MapeoDinamicoRespuesta<T, R>(T transaccion, R respuesta)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <typeparam name="R"></typeparam>
+        /// <param name="transaccion"></param>
+        /// <param name="respuesta"></param>
+        /// <returns></returns>
+        public static R MapeoDinamicoRespuesta<T, R>(T transaccion, R respuesta, string logica)
         {
-
-            List<PropiedadObjetoRespuesta> propiedades = new List<PropiedadObjetoRespuesta>()
+            try
+            {              
+                var result = ObtenerDatosApiControladorAccionDAL.Execute(ObtenerLogicaInyectada(transaccion));
+                return MapeoDinamicoPropiedades(transaccion, respuesta, result.ObjetoRespuesta.ListaPropiedades);
+            }
+            catch (Exception ex)
             {
-                new PropiedadObjetoRespuesta() {
-                    PropiedadOrigen = "DatoTrx001",
-                    PropiedadDestino = "DatoResponse001"
-                },
-                new PropiedadObjetoRespuesta() {
-                    PropiedadOrigen = "DatoTrx002",
-                    PropiedadDestino = "DatoResponse002"
-                },
-                new PropiedadObjetoRespuesta() {
-                    PropiedadOrigen = "DatoTrx004",
-                    PropiedadDestino = "DatoResponse003"
-                },
-            };
-
-            return MapeoDinamicoPropiedades(transaccion, respuesta, propiedades);
+                return default(R);
+            }
         }
 
-        private static R MapeoDinamicoPropiedades<T, R>(T transaccion, R respuesta, List<PropiedadObjetoRespuesta> propiedades) {
 
+        private static string ObtenerLogicaInyectada<T>(T transaccion)
+        {
+            JObject objOrigen = JObject.Parse(JsonConvert.SerializeObject(transaccion));
+            return objOrigen.SelectToken(NOMBRE_VARIABLE_LOGICA_INYECTADA).ToString();
+        }
 
+        private static R MapeoDinamicoPropiedades<T, R>(T transaccion, R respuesta, List<Propiedades> propiedades) 
+        {
             JObject objOrigen = JObject.Parse(JsonConvert.SerializeObject(transaccion));
             JObject objDestino = JObject.Parse(JsonConvert.SerializeObject(respuesta));
 
@@ -50,14 +52,14 @@ namespace Core.Common.Util.Helper
                 {
                     if (origen.Type != destino.Type)
                     {
-                        if (origen.Type.ToString().Equals(MapType.Array.ToString(), StringComparison.CurrentCulture) &&
-                            destino.Type.ToString().Equals(MapType.Array.ToString(), StringComparison.CurrentCulture))
+                        if (origen.Type.ToString().Equals(EnumMapType.Array.ToString(), StringComparison.CurrentCulture) &&
+                            destino.Type.ToString().Equals(EnumMapType.Array.ToString(), StringComparison.CurrentCulture))
                         {
                             JToken valor = objOrigen.SelectToken(mapeo.PropiedadOrigen).FirstOrDefault();
                             objDestino.SelectToken(mapeo.PropiedadDestino).Replace(valor);
                         }
-                        else if (origen.Type.ToString().Equals(MapType.Object.ToString(), StringComparison.CurrentCulture) &&
-                            destino.Type.ToString().Equals(MapType.Object.ToString(), StringComparison.CurrentCulture))
+                        else if (origen.Type.ToString().Equals(EnumMapType.Object.ToString(), StringComparison.CurrentCulture) &&
+                            destino.Type.ToString().Equals(EnumMapType.Object.ToString(), StringComparison.CurrentCulture))
                         {
                             string valor = String.Format("", objOrigen.SelectToken(mapeo.PropiedadOrigen).ToString());
                             objDestino.SelectToken(mapeo.PropiedadDestino).Replace(valor);

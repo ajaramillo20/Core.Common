@@ -1,12 +1,7 @@
-﻿using Core.Common.BusinessLogic.ProcessTemplate;
-using Core.Common.Model.ExcepcionServicio;
-using Core.Common.Model.General;
+﻿using Core.Common.Model.ExcepcionServicio;
 using Core.Common.Model.Transaccion;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Core.Common.ProcessTemplate.InternalBusinessLogic;
+using Core.Common.Model.Transaccion.Respuesta;
 
 namespace Core.Common.ProcessTemplate
 {
@@ -21,7 +16,8 @@ namespace Core.Common.ProcessTemplate
         private readonly IActualizar<Request, Response> _logicaActualizar;
         private readonly IEliminar<Request, Response> _logicaEliminar;
         private readonly IProcesarTransaccion<Request, Response> _logicaProcesarTransaccion;
-
+        private readonly IProcesarTransaccionSimple<Request, Response> _logicaProcesarTransaccionSimple;
+        
         public CrudProcessTemplate(IObtener<Request, Response> injectedLogic)
         {
             _logicaObtener = injectedLogic;
@@ -49,12 +45,15 @@ namespace Core.Common.ProcessTemplate
         {
             _logicaProcesarTransaccion = injectedLogic;
         }
+        public CrudProcessTemplate(IProcesarTransaccionSimple<Request, Response> injectedLogic)
+        {
+            _logicaProcesarTransaccionSimple = injectedLogic;
+        }
 
-        
         public EstructuraBase<Response> Obtener(EstructuraBase<Request> objetoTransaccional)
         {
             var logica = _logicaObtener;
-            string fullNameSource = logica.GetType().FullName;
+            string fullNameSource = logica.GetType().FullName ?? "NameSourceNotDefinedError";
             var dataObtener = objetoTransaccional.Data;
             var respuesta = new EstructuraBase<Response>();
 
@@ -69,14 +68,14 @@ namespace Core.Common.ProcessTemplate
             catch (ExcepcionServicio exServicio)
             {
                 respuesta.Mensaje = exServicio.MensajeExcepcion;
-                dataObtener.Resultado = respuesta.Mensaje;
+                dataObtener.Respuesta = respuesta.Mensaje;
                 //LogHelper.LoguearWarning(exServicio, fullnameSource);
             }
             catch (Exception ex)
             {
                 ExcepcionServicio excepcionServicio = new ExcepcionServicio(ex, fullNameSource);
                 respuesta.Mensaje = excepcionServicio.MensajeExcepcion;
-                dataObtener.Resultado = respuesta.Mensaje;
+                dataObtener.Respuesta = respuesta.Mensaje;
                 //LogHelper.LoguearWarning(exServicio, fullnameSource);
             }
             finally
@@ -111,19 +110,19 @@ namespace Core.Common.ProcessTemplate
             catch (ExcepcionServicio exServicio)
             {
                 respuesta.Mensaje = exServicio.MensajeExcepcion;
-                dataObtenerTodos.Resultado = respuesta.Mensaje;
+                dataObtenerTodos.Respuesta = respuesta.Mensaje;
                 //LogHelper.LoguearWarning(exServicio, fullnameSource);
             }
             catch (Exception ex)
             {
                 ExcepcionServicio excepcionServicio = new ExcepcionServicio(ex, fullNameSource);
                 respuesta.Mensaje = excepcionServicio.MensajeExcepcion;
-                dataObtenerTodos.Resultado = respuesta.Mensaje;
+                dataObtenerTodos.Respuesta = respuesta.Mensaje;
                 //LogHelper.LoguearWarning(exServicio, fullnameSource);
             }
             finally
             {
-                logica.ArmarObjetoRespuesta(dataObtenerTodos);
+                respuesta.Data = logica.ArmarObjetoRespuesta(dataObtenerTodos);
             }
 
             //LogHelper.LoguearDebug(dataObtener, fullnameSource, "TipoMensajeLogueo.Salida");
@@ -132,7 +131,6 @@ namespace Core.Common.ProcessTemplate
             return respuesta;
 
         }
-
 
         public EstructuraBase<Response> Insertar(EstructuraBase<Request> objetoTransaccional)
         {
@@ -156,19 +154,19 @@ namespace Core.Common.ProcessTemplate
             catch (ExcepcionServicio exServicio)
             {
                 respuesta.Mensaje = exServicio.MensajeExcepcion;
-                dataInsertar.Resultado = respuesta.Mensaje;
+                dataInsertar.Respuesta = respuesta.Mensaje;
                 //LogHelper.LoguearWarning(exServicio, fullnameSource);
             }
             catch (Exception ex)
             {
                 ExcepcionServicio excepcionServicio = new ExcepcionServicio(ex, fullNameSource);
                 respuesta.Mensaje = excepcionServicio.MensajeExcepcion;
-                dataInsertar.Resultado = respuesta.Mensaje;
+                dataInsertar.Respuesta = respuesta.Mensaje;
                 //LogHelper.LoguearWarning(exServicio, fullnameSource);
             }
             finally
             {
-                logica.ArmarObjetoRespuesta(dataInsertar);
+                respuesta.Data = logica.ArmarObjetoRespuesta(dataInsertar);
             }
 
             //LogHelper.LoguearDebug(dataObtener, fullnameSource, "TipoMensajeLogueo.Salida");
@@ -199,19 +197,19 @@ namespace Core.Common.ProcessTemplate
             catch (ExcepcionServicio exServicio)
             {
                 respuesta.Mensaje = exServicio.MensajeExcepcion;
-                dataActualizar.Resultado = respuesta.Mensaje;
+                dataActualizar.Respuesta = respuesta.Mensaje;
                 //LogHelper.LoguearWarning(exServicio, fullnameSource);
             }
             catch (Exception ex)
             {
                 ExcepcionServicio excepcionServicio = new ExcepcionServicio(ex, fullNameSource);
                 respuesta.Mensaje = excepcionServicio.MensajeExcepcion;
-                dataActualizar.Resultado = respuesta.Mensaje;
+                dataActualizar.Respuesta = respuesta.Mensaje;
                 //LogHelper.LoguearWarning(exServicio, fullnameSource);
             }
             finally
             {
-                logica.ArmarObjetoRespuesta(dataActualizar);
+                respuesta.Data = logica.ArmarObjetoRespuesta(dataActualizar);
             }
 
             //LogHelper.LoguearDebug(dataObtener, fullnameSource, "TipoMensajeLogueo.Salida");
@@ -236,24 +234,25 @@ namespace Core.Common.ProcessTemplate
             {
                 //Seguridad.ValidarSegundoFactor(dataObtener);
                 logica.AgregarInformacion(dataEliminar);
+                logica.ValidarInformacion(dataEliminar);
                 logica.Eliminarnformacion(dataEliminar);
             }
             catch (ExcepcionServicio exServicio)
             {
                 respuesta.Mensaje = exServicio.MensajeExcepcion;
-                dataEliminar.Resultado = respuesta.Mensaje;
+                dataEliminar.Respuesta = respuesta.Mensaje;
                 //LogHelper.LoguearWarning(exServicio, fullnameSource);
             }
             catch (Exception ex)
             {
                 ExcepcionServicio excepcionServicio = new ExcepcionServicio(ex, fullNameSource);
                 respuesta.Mensaje = excepcionServicio.MensajeExcepcion;
-                dataEliminar.Resultado = respuesta.Mensaje;
+                dataEliminar.Respuesta = respuesta.Mensaje;
                 //LogHelper.LoguearWarning(exServicio, fullnameSource);
             }
             finally
             {
-                logica.ArmarObjetoRespuesta(dataEliminar);
+                respuesta.Data = logica.ArmarObjetoRespuesta(dataEliminar);
             }
 
             //LogHelper.LoguearDebug(dataObtener, fullnameSource, "TipoMensajeLogueo.Salida");
@@ -286,19 +285,64 @@ namespace Core.Common.ProcessTemplate
             catch (ExcepcionServicio exServicio)
             {
                 respuesta.Mensaje = exServicio.MensajeExcepcion;
-                dataProcesarTransaccion.Resultado = respuesta.Mensaje;
+                dataProcesarTransaccion.Respuesta = respuesta.Mensaje;
                 //LogHelper.LoguearWarning(exServicio, fullnameSource);
             }
             catch (Exception ex)
             {
                 ExcepcionServicio excepcionServicio = new ExcepcionServicio(ex, fullNameSource);
                 respuesta.Mensaje = excepcionServicio.MensajeExcepcion;
-                dataProcesarTransaccion.Resultado = respuesta.Mensaje;
+                dataProcesarTransaccion.Respuesta = respuesta.Mensaje;
                 //LogHelper.LoguearWarning(exServicio, fullnameSource);
             }
             finally
             {
-                logica.ArmarObjetoRespuesta(dataProcesarTransaccion);
+                respuesta.Data = logica.ArmarObjetoRespuesta(dataProcesarTransaccion);
+            }
+
+            //LogHelper.LoguearDebug(dataObtener, fullnameSource, "TipoMensajeLogueo.Salida");
+            //dataObtener = Encriptar(dataObtener);
+            //ArmarRespuesta(logicaObtener, dataObtener, respuesta);
+            return respuesta;
+
+        }
+
+        public EstructuraBase<Response> ProcesarTransaccionSimple(EstructuraBase<Request> objetoTransaccional)
+        {
+            var logica = _logicaProcesarTransaccionSimple;
+
+            string fullNameSource = logica.GetType().FullName;
+            var dataProcesarTransaccionSimple = objetoTransaccional.Data;
+            var respuesta = new EstructuraBase<Response>();
+
+            //dataObtener = DesencriptarObjeto(dataObtener);
+            //LogHelper.LoguearDebug(dataObtener, fullnameSource, "TipoMensajeLogueo.Entrada");
+
+            try
+            {
+                //Seguridad.ValidarSegundoFactor(dataObtener);
+                logica.AgregarInformacion(dataProcesarTransaccionSimple);
+                logica.ValidarInformacion(dataProcesarTransaccionSimple);
+                logica.EjecutarTransaccion(dataProcesarTransaccionSimple);
+            }
+            catch (ExcepcionServicio exServicio)
+            {
+                respuesta.Mensaje = exServicio.MensajeExcepcion;
+                dataProcesarTransaccionSimple.Respuesta = respuesta.Mensaje;
+                //LogHelper.LoguearWarning(exServicio, fullnameSource);
+            }
+            catch (Exception ex)
+            {
+                ExcepcionServicio excepcionServicio = new ExcepcionServicio(ex, fullNameSource);
+                respuesta.Mensaje = excepcionServicio.MensajeExcepcion;
+                dataProcesarTransaccionSimple.Respuesta = respuesta.Mensaje;
+                //LogHelper.LoguearWarning(exServicio, fullnameSource);
+            }
+            finally
+            {
+                respuesta.Data = logica.ArmarObjetoRespuesta(dataProcesarTransaccionSimple);
+                respuesta.Meta = logica.ArmarMetaRespuesta(dataProcesarTransaccionSimple);
+                respuesta.Mensaje = logica.ArmarMensajeRespuesta(dataProcesarTransaccionSimple);
             }
 
             //LogHelper.LoguearDebug(dataObtener, fullnameSource, "TipoMensajeLogueo.Salida");

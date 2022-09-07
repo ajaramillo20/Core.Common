@@ -4,12 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Core.Common.Util.Modelos.Respuesta
+namespace Core.Common.Model.Configuracion.API
 {
-    internal class PropiedadObjetoRespuesta
+    public class PropiedadObjetoRespuesta
     {
         public PropiedadObjetoRespuesta()
         {
+
+
         }
 
         public string Destino { get; set; }
@@ -18,9 +20,6 @@ namespace Core.Common.Util.Modelos.Respuesta
 
         public int IdObjetoRespuesta { get; set; }
 
-        public string PropiedadOrigen { get; set; }
-        public string PropiedadDestino { get; set; }
-
-        public string JsonSchema { get; set; }
+        
     }
 }

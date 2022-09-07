@@ -8,13 +8,13 @@ namespace Core.Common.Model.Transaccion.Base
         public Resultado()
         {
             Error = "";
-            EstadoProceso = EstadoProceso.OK;
+            EstadoProceso = EnumEstadoProceso.OK;
             Mensaje = "OK";
         }
         public string Mensaje { get; set; }
 
         public string Error { get; set; }
 
-        public EstadoProceso EstadoProceso { get; set; }
+        public EnumEstadoProceso EstadoProceso { get; set; }
     }
 }

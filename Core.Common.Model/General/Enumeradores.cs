@@ -1,45 +1,32 @@
 ﻿namespace Core.Common.Model.General
 {
-    public enum Error {
+
+    public enum EnumDBConnection
+    {
+        SqlConnection,
+        MySqlConnection,
+    }
+
+    public enum EnumError {
         OperacionExitosa = 10000,
     }
 
-    public enum ParametroOfertaCartera
+    public enum EnumErrorComponentesComunes
     {
-        MontoDeCredito,
-
-        PlazoMaximo,
-
-        TipoDeCredito,
-
-        TipoDeAuto,
+        ErrorProcessTemplate = 12001,
     }
 
-
-    public enum EstadoProceso
+    public enum EnumEstadoProceso
     {
         OK = 1,
         ERROR = 2,
-        WARNING = 3
+        WARNING = 3,
     }
 
-    public enum EnumTipoRespuesta
+    public enum EnumMapType
     {
-        APR_CON_REC,
-        APR_SIN_REC,
-        NEG,
-        PEN,
-        NO_OFERTABLE,
-        SIN_RESPUESTA,
-    }
-
-    public enum TipoProceso
-    {
-        CONSULTAR_OFERTA,
-        GENERAR_OFERTA,
-        CARGAR_RESPUESTA,
-        CONSULTAR_VENTA,
-        GENERAR_VENTA
+        Array = 1,
+        Object = 2,
     }
 
 
