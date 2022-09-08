@@ -12,7 +12,7 @@ namespace Core.Common.DataAccess.Helper
     /// Clase encargada de la gestion para la conexion y acceso a bases de datos mediante Dapper.
     /// </summary>
     public class DBConnectionHelper : ControllerBase
-    {       
+    {        
         /// <summary>
         /// Variable de conexion para inyeccion de conexion a base de datos
         /// </summary>
@@ -39,6 +39,37 @@ namespace Core.Common.DataAccess.Helper
                     break;
             }
         }
+
+        public int Ejecutar<DBModel>(string procedimientoAlmacenado, DynamicParameters parametros)
+        {
+            try
+            {
+                using (_connection)
+                {
+                    _connection.Open();
+                    using (IDbTransaction transaction = _connection.BeginTransaction())
+                    {
+                        try
+                        {
+                            _connection.Execute(procedimientoAlmacenado, param: parametros, transaction, commandType: CommandType.StoredProcedure);
+                            transaction.Commit();
+                        }
+                        catch (Exception ex)
+                        {
+                            transaction.Rollback();
+                            return parametros.Get<int>(ProcedimientoAlmacenado.PARAM_CODIGO_RETORNO);
+                        }
+                    }
+                    _connection.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                return parametros.Get<int>(ProcedimientoAlmacenado.PARAM_CODIGO_RETORNO);
+            }
+            return parametros.Get<int>(ProcedimientoAlmacenado.PARAM_CODIGO_RETORNO);
+        }
+
 
         /// <summary>
         /// Metodo para recuperar informacion mediante un procedimiento almacenado sin parametros.
@@ -78,34 +109,35 @@ namespace Core.Common.DataAccess.Helper
         /// </summary>
         /// <param name="procedimientoAlmacenado">Nombre del procedimiento almacenado</param>
         /// <param name="parametros">Lista de parametros del procedimiento almacenado</param>
-        /// <returns>Codigo de respuesta enviado por la ejecucion del procedimiento almacenado (@codigoRetorno)</returns>
+        /// <returns>Codigo de respuesta enviado por la ejecucion del procedimiento almacenado (@CodigoRetorno)</returns>
         public int InsertarDatos(string procedimientoAlmacenado, DynamicParameters parametros)
         {
-            parametros.Add("@codigoRetorno", dbType: DbType.Int32, direction: ParameterDirection.ReturnValue);
             try
             {
                 using (_connection)
                 {
+                    _connection.Open();
                     using (IDbTransaction transaction = _connection.BeginTransaction())
                     {
                         try
                         {
-                            _connection.Query(procedimientoAlmacenado, param: parametros, commandType: CommandType.StoredProcedure).ToList();
+                            _connection.Execute(procedimientoAlmacenado, param: parametros, transaction, commandType: CommandType.StoredProcedure);
                             transaction.Commit();
                         }
                         catch (Exception ex)
                         {
                             transaction.Rollback();
-                            return parametros.Get<int>("@codigoRetorno");
+                            return parametros.Get<int>(ProcedimientoAlmacenado.PARAM_CODIGO_RETORNO);
                         }
                     }
+                    _connection.Close();
                 }
             }
             catch (Exception ex)
             {
-                return parametros.Get<int>("@codigoRetorno");
+                return parametros.Get<int>(ProcedimientoAlmacenado.PARAM_CODIGO_RETORNO);
             }
-            return parametros.Get<int>("@codigoRetorno");
+            return parametros.Get<int>(ProcedimientoAlmacenado.PARAM_CODIGO_RETORNO);
         }
 
         public ArrayList ObtenerQueryMultiple<DBModel1, DBModel2>(string storedProcedureName, string nombreBase, DynamicParameters parameter)

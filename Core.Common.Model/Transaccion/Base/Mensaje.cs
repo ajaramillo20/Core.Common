@@ -53,6 +53,6 @@ namespace Core.Common.Model.Transaccion.Base
         /// <summary>
         /// Propiedad set que permite setear el código de respuesta de la ejecución
         /// </summary>
-        public int CodigoInternoRespuesta { set { CodigoInternoRespuesta = 10000; } }
+        public int CodigoInternoRespuesta { get; set; }
     }
 }

@@ -8,6 +8,8 @@ namespace Core.Common.DataAccess.Helper
 {
     public static class ProcedimientoAlmacenado
     {
+        public const string PARAM_CODIGO_RETORNO = "@CodigoRetorno";
+
         public static class PA_API_OBTENER_DATOS_ENDPOINT
         {
             public const string PA_NOMBRE = "PA_API_OBTENER_DATOS_ENDPOINT";
