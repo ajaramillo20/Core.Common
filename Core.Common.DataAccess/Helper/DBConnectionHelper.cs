@@ -1,6 +1,7 @@
 ﻿using Core.Common.Model.General;
 using Dapper;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using MySql.Data.MySqlClient;
 using System.Collections;
 using System.Data;
@@ -11,8 +12,8 @@ namespace Core.Common.DataAccess.Helper
     /// <summary>
     /// Clase encargada de la gestion para la conexion y acceso a bases de datos mediante Dapper.
     /// </summary>
-    public class DBConnectionHelper : ControllerBase
-    {        
+    public class DBConnectionHelper
+    {
         /// <summary>
         /// Variable de conexion para inyeccion de conexion a base de datos
         /// </summary>
@@ -40,6 +41,13 @@ namespace Core.Common.DataAccess.Helper
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="DBModel"></typeparam>
+        /// <param name="procedimientoAlmacenado"></param>
+        /// <param name="parametros"></param>
+        /// <returns></returns>
         public int Ejecutar<DBModel>(string procedimientoAlmacenado, DynamicParameters parametros)
         {
             try
