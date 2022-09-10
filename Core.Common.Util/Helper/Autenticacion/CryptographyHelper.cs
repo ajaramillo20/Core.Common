@@ -11,87 +11,48 @@ namespace Core.Common.Util.Helper.Autenticacion
     {
 
         /// <summary>
-        /// Metodo para encriptar Cadenas de Texto
+        /// Metodo para encriptar Texto
         /// </summary>
-        /// <param name="text">Resibe una cadena de texto para encriptar</param>
+        /// <param name="text">Recibe texto sin encriptar</param>
+        /// <param name="secretKey">Clave secreta</param>
         /// <returns></returns>
         public static string EncryptString(string text, string secretKey)
         {
-            var key = Encoding.UTF8.GetBytes(secretKey);
+            byte[] arreglo = UTF8Encoding.UTF8.GetBytes(text);
+            MD5 md5 = MD5.Create();
+            TripleDES tripledes = TripleDES.Create();
 
+            tripledes.Key = md5.ComputeHash(UTF8Encoding.UTF8.GetBytes(secretKey));
+            tripledes.Mode = CipherMode.ECB;
+            tripledes.Padding = PaddingMode.PKCS7;
 
-            using (var aesAlg = Aes.Create())
-            {
-                using (var encryptor = aesAlg.CreateEncryptor(key, aesAlg.IV))
-                {
-                    using (var msEncrypt = new MemoryStream())
-                    {
-                        using (var csEncrypt = new CryptoStream(msEncrypt, encryptor, CryptoStreamMode.Write))
-                        using (var swEncrypt = new StreamWriter(csEncrypt))
-                        {
-                            swEncrypt.Write(text);
-                        }
+            ICryptoTransform convertir = tripledes.CreateEncryptor();
+            byte[] resultado = convertir.TransformFinalBlock(arreglo, 0, arreglo.Length);
+            tripledes.Clear();
 
-
-
-                        var iv = aesAlg.IV;
-
-
-
-                        var decryptedContent = msEncrypt.ToArray();
-
-
-
-                        var result = new byte[iv.Length + decryptedContent.Length];
-
-
-
-                        Buffer.BlockCopy(iv, 0, result, 0, iv.Length);
-                        Buffer.BlockCopy(decryptedContent, 0, result, iv.Length, decryptedContent.Length);
-
-
-
-                        return Convert.ToBase64String(result);
-                    }
-                }
-            }
+            return Convert.ToBase64String(resultado, 0, resultado.Length);
         }
 
-
-
         /// <summary>
-        /// Metodo para desencriptar
+        /// Metodo para desencriptar MD5
         /// </summary>
-        /// <param name="encryptText">Recibe un texto encriptado para desencriptar</param>
+        /// <param name="encryptText">Texto encriptado</param>
+        /// <param name="secretKey">Clave secreta</param>
         /// <returns></returns>
         public static string DecryptString(string encryptText, string secretKey)
         {
-            var fullCipher = Convert.FromBase64String(encryptText);
-            var iv = new byte[16];
-            var cipher = new byte[16];
+            byte[] arreglo = Convert.FromBase64String(encryptText);
+            MD5 md5 = MD5.Create();
+            TripleDES tripledes = TripleDES.Create();
 
-            Buffer.BlockCopy(fullCipher, 0, iv, 0, iv.Length);
-            Buffer.BlockCopy(fullCipher, iv.Length, cipher, 0, iv.Length);
-            var key = Encoding.UTF8.GetBytes(secretKey);
+            tripledes.Key = md5.ComputeHash(UTF8Encoding.UTF8.GetBytes(secretKey));
+            tripledes.Mode = CipherMode.ECB;
+            tripledes.Padding = PaddingMode.PKCS7;
+            ICryptoTransform convertir = tripledes.CreateDecryptor();
+            byte[] resultado = convertir.TransformFinalBlock(arreglo, 0, arreglo.Length);
+            tripledes.Clear();
 
-            using (var aesAlg = Aes.Create())
-            {
-                using (var decryptor = aesAlg.CreateDecryptor(key, iv))
-                {
-                    string result;
-                    using (var msDecrypt = new MemoryStream(cipher))
-                    {
-                        using (var csDecrypt = new CryptoStream(msDecrypt, decryptor, CryptoStreamMode.Read))
-                        {
-                            using (var srDecrypt = new StreamReader(csDecrypt))
-                            {
-                                result = srDecrypt.ReadToEnd();
-                            }
-                        }
-                    }
-                    return result;
-                }
-            }
+            return UTF8Encoding.UTF8.GetString(resultado);
         }
 
     }
