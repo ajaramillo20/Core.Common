@@ -17,7 +17,7 @@ namespace Core.Common.Model.ExcepcionServicio
 
         public ExcepcionServicio(Mensaje mensaje, string fuenteError) { 
             FuenteError = fuenteError;
-            MensajeExcepcion = mensaje;
+            MensajeExcepcion = "Error";
         }
 
         public ExcepcionServicio(Exception exception, string fuenteError)

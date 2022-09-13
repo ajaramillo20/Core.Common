@@ -148,6 +148,79 @@ namespace Core.Common.DataAccess.Helper
             return parametros.Get<int>(ProcedimientoAlmacenado.PARAM_CODIGO_RETORNO);
         }
 
+        /// <summary>
+        /// Metodo para Eliminar datos de manera transaccional 
+        /// </summary>
+        /// <param name="procedimientoAlmacenado">Nombre del procedimiento almacenado</param>
+        /// <param name="parametros">Lista de parametros del procedimiento almacenado</param>
+        /// <returns>Codigo de respuesta enviado por la ejecucion del procedimiento almacenado (@CodigoRetorno)</returns>
+        public int Eliminar(string procedimientoAlmacenado, DynamicParameters parametros)
+        {
+            try
+            {
+                using (_connection)
+                {
+                    _connection.Open();
+                    using (IDbTransaction transaction = _connection.BeginTransaction())
+                    {
+                        try
+                        {
+                            _connection.Execute(procedimientoAlmacenado, param: parametros, transaction, commandType: CommandType.StoredProcedure);
+                            transaction.Commit();
+                        }
+                        catch (Exception ex)
+                        {
+                            transaction.Rollback();
+                            return parametros.Get<int>(ProcedimientoAlmacenado.PARAM_CODIGO_RETORNO);
+                        }
+                    }
+                    _connection.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                return parametros.Get<int>(ProcedimientoAlmacenado.PARAM_CODIGO_RETORNO);
+            }
+            return parametros.Get<int>(ProcedimientoAlmacenado.PARAM_CODIGO_RETORNO);
+        }
+
+        
+        /// <summary>
+        /// Metodo para actualizar datos de manera transaccional 
+        /// </summary>
+        /// <param name="procedimientoAlmacenado">Nombre del procedimiento almacenado</param>
+        /// <param name="parametros">Lista de parametros del procedimiento almacenado</param>
+        /// <returns>Codigo de respuesta enviado por la ejecucion del procedimiento almacenado (@CodigoRetorno)</returns>
+        public int Actualizar(string procedimientoAlmacenado, DynamicParameters parametros)
+        {
+            try
+            {
+                using (_connection)
+                {
+                    _connection.Open();
+                    using (IDbTransaction transaction = _connection.BeginTransaction())
+                    {
+                        try
+                        {
+                            _connection.Execute(procedimientoAlmacenado, param: parametros, transaction, commandType: CommandType.StoredProcedure);
+                            transaction.Commit();
+                        }
+                        catch (Exception ex)
+                        {
+                            transaction.Rollback();
+                            return parametros.Get<int>(ProcedimientoAlmacenado.PARAM_CODIGO_RETORNO);
+                        }
+                    }
+                    _connection.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                return parametros.Get<int>(ProcedimientoAlmacenado.PARAM_CODIGO_RETORNO);
+            }
+            return parametros.Get<int>(ProcedimientoAlmacenado.PARAM_CODIGO_RETORNO);
+        }
+
         public ArrayList ObtenerQueryMultiple<DBModel1, DBModel2>(string storedProcedureName, string nombreBase, DynamicParameters parameter)
         {
             return new ArrayList() { new List<DBModel1>(), new List<DBModel2>() };
@@ -161,7 +234,6 @@ namespace Core.Common.DataAccess.Helper
         public ArrayList ObtenerQueryMultiple<DBModel1, DBModel2, DBModel3, DBModel4>(string storedProcedureName, string nombreBase, DynamicParameters parameter)
         {
             return new ArrayList() { new List<DBModel1>(), new List<DBModel2>() };
-        }
-
+        }               
     }
 }

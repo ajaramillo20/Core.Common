@@ -13,7 +13,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Docs.Common", "Docs.Common\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core.Common.DataAccess", "Core.Common.DataAccess\Core.Common.DataAccess.csproj", "{93B4F10C-45CB-4824-BE6F-29EB2B30E1EB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "xUnitTest.Common", "xUnitTest.Common\xUnitTest.Common.csproj", "{68F8F6C8-066D-4C9A-B0F7-A430B3880066}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "xUnitTest.Common", "xUnitTest.Common\xUnitTest.Common.csproj", "{68F8F6C8-066D-4C9A-B0F7-A430B3880066}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
