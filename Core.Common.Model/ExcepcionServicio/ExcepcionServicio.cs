@@ -12,12 +12,12 @@ namespace Core.Common.Model.ExcepcionServicio
 
         public ExcepcionServicio() {
             FuenteError = "MICROSERVICIOS";
-            MensajeExcepcion = new Mensaje(9999, "Error en el proceso. Contacte al Administrador.", true, "Microservicios");
+            MensajeExcepcion = new Mensaje(9999, "Error en el proceso. Contacte al Administrador.", true, "Microservicios");            
         }
 
         public ExcepcionServicio(Mensaje mensaje, string fuenteError) { 
             FuenteError = fuenteError;
-            MensajeExcepcion = "Error";
+            MensajeExcepcion = mensaje;
         }
 
         public ExcepcionServicio(Exception exception, string fuenteError)
@@ -25,7 +25,7 @@ namespace Core.Common.Model.ExcepcionServicio
             FuenteError = fuenteError;
             MensajeExcepcion = new Mensaje(exception.HResult, exception.Message, true, exception.Source);
         }
-
+        
         public string FuenteError { get; set; }    
         public Mensaje MensajeExcepcion { get; }
 
