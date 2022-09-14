@@ -95,7 +95,7 @@ namespace Core.Common.ProcessTemplate
         {
             var logica = _logicaObtenerTodos;
 
-            string fullNameSource = logica.GetType().FullName;
+            string fullNameSource = logica.GetType().FullName ?? "NameSourceNotDefinedError";
             var dataObtenerTodos = objetoTransaccional.Data;
             var respuesta = new EstructuraBase<Response>();
 
@@ -138,7 +138,7 @@ namespace Core.Common.ProcessTemplate
         {
             var logica = _logicaInsertar;
 
-            string fullNameSource = logica.GetType().FullName;
+            string fullNameSource = logica.GetType().FullName ?? "NameSourceNotDefinedError";
             var dataInsertar = objetoTransaccional.Data;
             var respuesta = new EstructuraBase<Response>();
 
@@ -182,7 +182,7 @@ namespace Core.Common.ProcessTemplate
         {
             var logica = _logicaActualizar;
 
-            string fullNameSource = logica.GetType().FullName;
+            string fullNameSource = logica.GetType().FullName ?? "NameSourceNotDefinedError";
             var dataActualizar = objetoTransaccional.Data;
             var respuesta = new EstructuraBase<Response>();
 
@@ -227,7 +227,7 @@ namespace Core.Common.ProcessTemplate
         {
             var logica = _logicaEliminar;
 
-            string fullNameSource = logica.GetType().FullName;
+            string fullNameSource = logica.GetType().FullName ?? "NameSourceNotDefinedError";
             var dataEliminar = objetoTransaccional.Data;
             var respuesta = new EstructuraBase<Response>();
 
@@ -271,7 +271,7 @@ namespace Core.Common.ProcessTemplate
         {
             var logica = _logicaProcesarTransaccion;
 
-            string fullNameSource = logica.GetType().FullName;
+            string fullNameSource = logica.GetType().FullName ?? "NameSourceNotDefinedError";
             var dataProcesarTransaccion = objetoTransaccional.Data;
             var respuesta = new EstructuraBase<Response>();
 
@@ -317,7 +317,7 @@ namespace Core.Common.ProcessTemplate
         {
             var logica = _logicaProcesarTransaccionSimple;
 
-            string fullNameSource = logica.GetType().FullName;
+            string fullNameSource = logica.GetType().FullName ?? "NameSourceNotDefinedError";
             var dataProcesarTransaccionSimple = objetoTransaccional.Data;
             var respuesta = new EstructuraBase<Response>();
 
