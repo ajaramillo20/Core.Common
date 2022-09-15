@@ -17,16 +17,16 @@ namespace Core.Common.Model.ExcepcionServicio
 
         public ExcepcionServicio(Mensaje mensaje, string fuenteError) { 
             FuenteError = fuenteError;
-            MensajeExcepcion = mensaje;
+            MensajeExcepcion = mensaje;            
         }
-
+       
         public ExcepcionServicio(Exception exception, string fuenteError)
         {
             FuenteError = fuenteError;
             MensajeExcepcion = new Mensaje(exception.HResult, exception.Message, true, exception.Source);
         }
         
-        public string FuenteError { get; set; }    
+        public string FuenteError { get; set; }  
         public Mensaje MensajeExcepcion { get; }
 
     }
