@@ -17,7 +17,7 @@ namespace Core.Common.ProcessTemplate
         private readonly IEliminar<Request, Response> _logicaEliminar;
         private readonly IProcesarTransaccion<Request, Response> _logicaProcesarTransaccion;
         private readonly IProcesarTransaccionSimple<Request, Response> _logicaProcesarTransaccionSimple;
-        
+
         public CrudProcessTemplate(IObtener<Request, Response> injectedLogic)
         {
             _logicaObtener = injectedLogic;
@@ -157,7 +157,7 @@ namespace Core.Common.ProcessTemplate
             {
                 respuesta.Mensaje = exServicio.MensajeExcepcion;
                 dataInsertar.Respuesta = respuesta.Mensaje;
-                dataInsertar.Respuesta.CodigoInternoRespuesta = exServicio.MensajeExcepcion.CodigoRespuesta;
+                dataInsertar.Respuesta.CodigoInternoRespuesta = exServicio.MensajeExcepcion.CodigoInternoRespuesta;
                 //LogHelper.LoguearWarning(exServicio, fullnameSource);
             }
             catch (Exception ex)
