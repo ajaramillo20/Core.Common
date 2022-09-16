@@ -60,7 +60,7 @@ namespace Core.Common.ProcessTemplate.InternalBusinessLogic.Base
         {
             if (objetoTransaccional.Respuesta.CodigoRespuesta == (int)EnumError.OperacionExitosa)
             {
-                return new Mensaje(10000, "Operacion Exitosa.", false, "N/A");
+                return new Mensaje(10000, "Operacion Exitosa.", false, "N/A",10000);
             }
             return new Mensaje();//ObtenerMensajeRespuesta(objetoTransaccional.Respuesta.CodigoInternoRespuesta); 
         }
