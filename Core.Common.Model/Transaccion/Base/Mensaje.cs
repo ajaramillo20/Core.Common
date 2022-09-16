@@ -16,13 +16,14 @@ namespace Core.Common.Model.Transaccion.Base
         /// <param name="mensajeRespuesta">Mensaje de Respuesta</param>
         /// <param name="huboError">Flag de error</param>
         /// <param name="fuenteError">Namespace de la funte de error</param>
-        public Mensaje(int codigoRespuesta, string mensajeRespuesta, bool huboError, string fuenteError)
+        public Mensaje(int codigoRespuesta, string mensajeRespuesta, bool huboError, string fuenteError, int codigoInternoRespuesta)
         {
             Id = Guid.NewGuid();
-            CodigoRespuesta = codigoRespuesta;
-            FuenteError = fuenteError;
-            MensajeRespuesta = mensajeRespuesta;
             HuboError = huboError;
+            FuenteError = fuenteError;
+            CodigoRespuesta = codigoRespuesta;
+            MensajeRespuesta = mensajeRespuesta;
+            CodigoInternoRespuesta = codigoInternoRespuesta;
         }
 
         /// <summary>

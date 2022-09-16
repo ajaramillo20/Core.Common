@@ -21,7 +21,14 @@ namespace Core.Common.DataAccess.Helper
             public const string PA_NOMBRE = "PA_CON_OBTENER_VARIABLE_SISTEMA";
             public const string PARAM_NOMBRE_ACCION = "@CodigoVariable";
         }
-       
+
+        public static class PA_CON_OBTENER_ERROR_MICROSERVICIO
+        {
+            public const string PA_NOMBRE = "PA_CON_OBTENER_ERROR_MICROSERVICIO";
+            public const string PARAM_CODIGO_RESPUESTA_INTERNO ="@CodigoInternoRespuesta";
+        }
+
+
     }
      
 }

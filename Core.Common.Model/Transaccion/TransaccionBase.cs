@@ -11,7 +11,7 @@ namespace Core.Common.Model.Transaccion
     {
         public TransaccionBase()
         {
-            Respuesta = new Mensaje(10000, "OK", false, null);
+            Respuesta = new Mensaje(10000, "OK", false, string.Empty,10000);
             Auditoria = new Auditoria();
             Terminal = new Terminal();
             Endpoint = new Endpoint();

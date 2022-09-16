@@ -7,27 +7,19 @@ using System.Threading.Tasks;
 
 namespace Core.Common.Model.ExcepcionServicio
 {
-    public  class ExcepcionServicio : System.Exception
+    public class ExcepcionServicio : System.Exception
     {
-
-        public ExcepcionServicio() {
-            FuenteError = "MICROSERVICIOS";
-            MensajeExcepcion = new Mensaje(9999, "Error en el proceso. Contacte al Administrador.", true, "Microservicios");            
-        }
-
-        public ExcepcionServicio(Mensaje mensaje, string fuenteError) { 
-            FuenteError = fuenteError;
-            MensajeExcepcion = mensaje;            
-        }
-       
-        public ExcepcionServicio(Exception exception, string fuenteError)
+        public ExcepcionServicio(Exception exception)
         {
-            FuenteError = fuenteError;
-            MensajeExcepcion = new Mensaje(exception.HResult, exception.Message, true, exception.Source);
+            Mensaje = new Mensaje(exception.HResult, exception.Message, true, exception.Source, exception.HResult);
         }
-        
-        public string FuenteError { get; set; }  
-        public Mensaje MensajeExcepcion { get; }
 
+        public ExcepcionServicio(int codigoInternoError)
+        {
+            CodigoInternoRespuesta = codigoInternoError;
+        }
+
+        public Mensaje Mensaje { get; set; }
+        public int CodigoInternoRespuesta { get; set; }
     }
 }
