@@ -16,14 +16,14 @@ namespace Core.Common.Model.Transaccion.Base
         /// <param name="mensajeRespuesta">Mensaje de Respuesta</param>
         /// <param name="huboError">Flag de error</param>
         /// <param name="fuenteError">Namespace de la funte de error</param>
-        public Mensaje(int codigoRespuesta, string mensajeRespuesta, bool huboError, string fuenteError, int codigoInternoRespuesta)
+        public Mensaje(int codigoRespuesta, string mensajeRespuesta, bool huboError, string fuenteError)
         {
             Id = Guid.NewGuid();
             HuboError = huboError;
             FuenteError = fuenteError;
             CodigoRespuesta = codigoRespuesta;
             MensajeRespuesta = mensajeRespuesta;
-            CodigoInternoRespuesta = codigoInternoRespuesta;
+            //CodigoInternoRespuesta = codigoInternoRespuesta;
         }
 
         /// <summary>
@@ -51,9 +51,9 @@ namespace Core.Common.Model.Transaccion.Base
         /// </summary>
         public string MensajeRespuesta { get; }
 
-        /// <summary>
-        /// Propiedad set que permite setear el código de respuesta de la ejecución
-        /// </summary>
-        public int CodigoInternoRespuesta { get; set; }
+        ///// <summary>
+        ///// Propiedad set que permite setear el código de respuesta de la ejecución
+        ///// </summary>
+        //public int CodigoInternoRespuesta { get; set; }
     }
 }

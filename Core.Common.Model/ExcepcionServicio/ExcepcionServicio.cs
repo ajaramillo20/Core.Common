@@ -11,7 +11,7 @@ namespace Core.Common.Model.ExcepcionServicio
     {
         public ExcepcionServicio(Exception exception)
         {
-            Mensaje = new Mensaje(exception.HResult, exception.Message, true, exception.Source, exception.HResult);
+            Mensaje = new Mensaje(exception.HResult, exception.Message, true, exception.Source);
         }
 
         public ExcepcionServicio(int codigoInternoError)

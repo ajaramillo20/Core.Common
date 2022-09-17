@@ -9,7 +9,7 @@ namespace Core.Common.Util.Helper.Internal
         public static Mensaje ObtenerMensajeRespuesta(int codigoInternoRespuesta)
         {
             var errorMicroservicio = ObtenerErrorMicroservicioDAL.Execute(codigoInternoRespuesta);
-            var mensaje = new Mensaje(errorMicroservicio.CodigoInterno, errorMicroservicio.MensajeError, true, errorMicroservicio.Modulo, errorMicroservicio.CodigoInterno);
+            var mensaje = new Mensaje(errorMicroservicio.CodigoInterno, errorMicroservicio.MensajeError, true, errorMicroservicio.Modulo);
             return mensaje;
         }
     }

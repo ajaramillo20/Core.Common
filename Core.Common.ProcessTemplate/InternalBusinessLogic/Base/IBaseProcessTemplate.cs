@@ -17,19 +17,19 @@ namespace Core.Common.ProcessTemplate.InternalBusinessLogic.Base
                 //objetoTransaccional.ArmarMetaRespuesta(objetoTransaccional);
                 if (objetoTransaccional.Respuesta.CodigoRespuesta == (int)EnumError.OperacionExitosa)
                 {
-                    Response respuesta = new Response();                  
+                    Response respuesta = new Response();
                     return MapHelper.MapeoDinamicoRespuesta(objetoTransaccional, respuesta, objetoTransaccional.Endpoint.LogicaInyectada);
                 }
                 return null;
             }
             catch (Exception)
             {
-                objetoTransaccional.Respuesta.CodigoInternoRespuesta = (int)EnumErrorComponentesComunes.ErrorProcessTemplate;
+                objetoTransaccional.Respuesta = ErrorHelper.ObtenerMensajeRespuesta((int)EnumErrorComponentesComunes.ErrorProcessTemplate);
                 return null;
             }
-            
-        } 
-      
+
+        }
+
 
         ColeccionObjetos<Link> ArmarLinkRespuesta(Request objetoTransaccional)
         {
@@ -60,7 +60,7 @@ namespace Core.Common.ProcessTemplate.InternalBusinessLogic.Base
         {
             if (objetoTransaccional.Respuesta.CodigoRespuesta == (int)EnumError.OperacionExitosa)
             {
-                return new Mensaje(10000, "Operacion Exitosa.", false, "N/A",10000);
+                return new Mensaje(10000, "Operacion Exitosa.", false, "N/A");
             }
             return new Mensaje();//ObtenerMensajeRespuesta(objetoTransaccional.Respuesta.CodigoInternoRespuesta); 
         }

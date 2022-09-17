@@ -84,6 +84,7 @@ namespace Core.Common.ProcessTemplate
             finally
             {
                 respuesta.Data = logica.ArmarObjetoRespuesta(dataObtener);
+                respuesta.Meta = logica.ArmarMetaRespuesta(dataObtener);
             }
 
             //LogHelper.LoguearDebug(dataObtener, fullnameSource, "TipoMensajeLogueo.Salida");
@@ -127,6 +128,7 @@ namespace Core.Common.ProcessTemplate
             finally
             {
                 respuesta.Data = logica.ArmarObjetoRespuesta(dataObtenerTodos);
+                respuesta.Meta = logica.ArmarMetaRespuesta(dataObtenerTodos);
             }
 
             //LogHelper.LoguearDebug(dataObtener, fullnameSource, "TipoMensajeLogueo.Salida");
@@ -172,6 +174,7 @@ namespace Core.Common.ProcessTemplate
             finally
             {
                 respuesta.Data = logica.ArmarObjetoRespuesta(dataInsertar);
+                respuesta.Meta = logica.ArmarMetaRespuesta(dataInsertar);
             }
 
             //LogHelper.LoguearDebug(dataObtener, fullnameSource, "TipoMensajeLogueo.Salida");
@@ -216,6 +219,7 @@ namespace Core.Common.ProcessTemplate
             finally
             {
                 respuesta.Data = logica.ArmarObjetoRespuesta(dataActualizar);
+                respuesta.Meta = logica.ArmarMetaRespuesta(dataActualizar);
             }
 
             //LogHelper.LoguearDebug(dataObtener, fullnameSource, "TipoMensajeLogueo.Salida");
@@ -260,6 +264,7 @@ namespace Core.Common.ProcessTemplate
             finally
             {
                 respuesta.Data = logica.ArmarObjetoRespuesta(dataEliminar);
+                respuesta.Meta = logica.ArmarMetaRespuesta(dataEliminar);
             }
 
             //LogHelper.LoguearDebug(dataObtener, fullnameSource, "TipoMensajeLogueo.Salida");
@@ -306,6 +311,7 @@ namespace Core.Common.ProcessTemplate
             finally
             {
                 respuesta.Data = logica.ArmarObjetoRespuesta(dataProcesarTransaccion);
+                respuesta.Meta = logica.ArmarMetaRespuesta(dataProcesarTransaccion);
             }
 
             //LogHelper.LoguearDebug(dataObtener, fullnameSource, "TipoMensajeLogueo.Salida");
@@ -350,8 +356,7 @@ namespace Core.Common.ProcessTemplate
             finally
             {
                 respuesta.Data = logica.ArmarObjetoRespuesta(dataProcesarTransaccionSimple);
-                respuesta.Meta = logica.ArmarMetaRespuesta(dataProcesarTransaccionSimple);
-                respuesta.Mensaje = logica.ArmarMensajeRespuesta(dataProcesarTransaccionSimple);
+                respuesta.Meta = logica.ArmarMetaRespuesta(dataProcesarTransaccionSimple);                
             }
 
             //LogHelper.LoguearDebug(dataObtener, fullnameSource, "TipoMensajeLogueo.Salida");
