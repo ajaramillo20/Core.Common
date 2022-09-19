@@ -56,14 +56,14 @@ namespace Core.Common.ProcessTemplate.InternalBusinessLogic.Base
         }
 
 
-        Mensaje ArmarMensajeRespuesta(Request objetoTransaccional)
-        {
-            if (objetoTransaccional.Respuesta.CodigoRespuesta == (int)EnumError.OperacionExitosa)
-            {
-                return new Mensaje(10000, "Operacion Exitosa.", false, "N/A");
-            }
-            return new Mensaje();//ObtenerMensajeRespuesta(objetoTransaccional.Respuesta.CodigoInternoRespuesta); 
-        }
+        //Mensaje ArmarMensajeRespuesta(Request objetoTransaccional)
+        //{
+        //    if (objetoTransaccional.Respuesta.CodigoRespuesta == (int)EnumError.OperacionExitosa)
+        //    {
+        //        return new Mensaje((int)EnumError.OperacionExitosa, "Operacion Exitosa.", false, "N/A");
+        //    }
+        //    return new Mensaje();//ObtenerMensajeRespuesta(objetoTransaccional.Respuesta.CodigoInternoRespuesta); 
+        //}
 
     }
 }

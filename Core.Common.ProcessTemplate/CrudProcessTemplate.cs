@@ -70,7 +70,7 @@ namespace Core.Common.ProcessTemplate
             catch (ExcepcionServicio exServicio)
             {
                 //Refactorizar
-                exServicio.Mensaje = ErrorHelper.ObtenerMensajeRespuesta(exServicio.CodigoInternoRespuesta);
+                exServicio.Mensaje = ErrorHelper.ObtenerMensajeRespuesta(exServicio.CodigoInternoError);
                 respuesta.Mensaje = exServicio.Mensaje;
                 dataObtener.Respuesta = respuesta.Mensaje;
             }
@@ -113,7 +113,7 @@ namespace Core.Common.ProcessTemplate
             }
             catch (ExcepcionServicio exServicio)
             {
-                exServicio.Mensaje = ErrorHelper.ObtenerMensajeRespuesta(exServicio.CodigoInternoRespuesta);
+                exServicio.Mensaje = ErrorHelper.ObtenerMensajeRespuesta(exServicio.CodigoInternoError);
                 respuesta.Mensaje = exServicio.Mensaje;
                 dataObtenerTodos.Respuesta = respuesta.Mensaje;
                 //LogHelper.LoguearWarning(exServicio, fullnameSource);
@@ -159,7 +159,7 @@ namespace Core.Common.ProcessTemplate
             }
             catch (ExcepcionServicio exServicio)
             {
-                exServicio.Mensaje = ErrorHelper.ObtenerMensajeRespuesta(exServicio.CodigoInternoRespuesta);
+                exServicio.Mensaje = ErrorHelper.ObtenerMensajeRespuesta(exServicio.CodigoInternoError);
                 respuesta.Mensaje = exServicio.Mensaje;
                 dataInsertar.Respuesta = respuesta.Mensaje;
                 //LogHelper.LoguearWarning(exServicio, fullnameSource);
@@ -204,7 +204,7 @@ namespace Core.Common.ProcessTemplate
             }
             catch (ExcepcionServicio exServicio)
             {
-                exServicio.Mensaje = ErrorHelper.ObtenerMensajeRespuesta(exServicio.CodigoInternoRespuesta);
+                exServicio.Mensaje = ErrorHelper.ObtenerMensajeRespuesta(exServicio.CodigoInternoError);
                 respuesta.Mensaje = exServicio.Mensaje;
                 dataActualizar.Respuesta = respuesta.Mensaje;
                 //LogHelper.LoguearWarning(exServicio, fullnameSource);
@@ -249,7 +249,7 @@ namespace Core.Common.ProcessTemplate
             }
             catch (ExcepcionServicio exServicio)
             {
-                exServicio.Mensaje = ErrorHelper.ObtenerMensajeRespuesta(exServicio.CodigoInternoRespuesta);
+                exServicio.Mensaje = ErrorHelper.ObtenerMensajeRespuesta(exServicio.CodigoInternoError);
                 respuesta.Mensaje = exServicio.Mensaje;
                 dataEliminar.Respuesta = respuesta.Mensaje;
                 //LogHelper.LoguearWarning(exServicio, fullnameSource);
@@ -296,7 +296,7 @@ namespace Core.Common.ProcessTemplate
             }
             catch (ExcepcionServicio exServicio)
             {
-                exServicio.Mensaje = ErrorHelper.ObtenerMensajeRespuesta(exServicio.CodigoInternoRespuesta);
+                exServicio.Mensaje = ErrorHelper.ObtenerMensajeRespuesta(exServicio.CodigoInternoError);
                 respuesta.Mensaje = exServicio.Mensaje;
                 dataProcesarTransaccion.Respuesta = respuesta.Mensaje;
                 //LogHelper.LoguearWarning(exServicio, fullnameSource);
@@ -341,7 +341,7 @@ namespace Core.Common.ProcessTemplate
             }
             catch (ExcepcionServicio exServicio)
             {
-                exServicio.Mensaje = ErrorHelper.ObtenerMensajeRespuesta(exServicio.CodigoInternoRespuesta);
+                exServicio.Mensaje = ErrorHelper.ObtenerMensajeRespuesta(exServicio.CodigoInternoError);
                 respuesta.Mensaje = exServicio.Mensaje;
                 dataProcesarTransaccionSimple.Respuesta = respuesta.Mensaje;
                 //LogHelper.LoguearWarning(exServicio, fullnameSource);

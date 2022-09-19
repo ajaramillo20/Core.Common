@@ -11,15 +11,15 @@ namespace Core.Common.Model.ExcepcionServicio
     {
         public ExcepcionServicio(Exception exception)
         {
-            Mensaje = new Mensaje(exception.HResult, exception.Message, true, exception.Source);
+            Mensaje = new Mensaje(exception.HResult, exception.Message, true, exception.Source,exception.HResult);
         }
 
         public ExcepcionServicio(int codigoInternoError)
         {
-            CodigoInternoRespuesta = codigoInternoError;
+            CodigoInternoError = codigoInternoError;
         }
 
         public Mensaje Mensaje { get; set; }
-        public int CodigoInternoRespuesta { get; set; }
+        public int CodigoInternoError { get; set; }
     }
 }
