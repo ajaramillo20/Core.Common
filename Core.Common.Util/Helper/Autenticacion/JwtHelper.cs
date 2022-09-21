@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
@@ -87,6 +88,45 @@ namespace Core.Common.Util.Helper.Autenticacion
             return tokenReturnable;
         }
 
+        /// <summary>
+        /// Metodo para desencriptar jwt
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        public static JwtSecurityToken DesencriptarJWT(HttpRequest request)
+        {
+            var token = request.Headers["Authorization"].ToString().Split(' ')[1];
 
+            var handler = new JwtSecurityTokenHandler();
+            var jwtSecurityToken = handler.ReadJwtToken(token);
+
+            return jwtSecurityToken;
+        }
+
+        /// <summary>
+        /// Metodo para desencriptar jwt
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        public static JwtSecurityToken DesencriptarJWT(string tokenEncriptado)
+        {            
+            var handler = new JwtSecurityTokenHandler();
+            var jwtSecurityToken = handler.ReadJwtToken(tokenEncriptado);
+
+            return jwtSecurityToken;
+        }
+
+        /// <summary>
+        /// Obtiene Claims para obtener datos de JWT
+        /// </summary>
+        /// <param name="securityToken"></param>
+        /// <param name="claim"></param>
+        /// <returns></returns>
+        public static string GetClaim(JwtSecurityToken securityToken, string claim)
+        {
+            var jti = securityToken.Claims.First(c => c.Type == claim).Value;
+            return jti;
+        }
+       
     }
 }

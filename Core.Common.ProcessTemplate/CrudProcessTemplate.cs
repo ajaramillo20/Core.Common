@@ -356,7 +356,7 @@ namespace Core.Common.ProcessTemplate
             finally
             {
                 respuesta.Data = logica.ArmarObjetoRespuesta(dataProcesarTransaccionSimple);
-                respuesta.Meta = logica.ArmarMetaRespuesta(dataProcesarTransaccionSimple);                
+                respuesta.Meta = logica.ArmarMetaRespuesta(dataProcesarTransaccionSimple);                     
             }
 
             //LogHelper.LoguearDebug(dataObtener, fullnameSource, "TipoMensajeLogueo.Salida");

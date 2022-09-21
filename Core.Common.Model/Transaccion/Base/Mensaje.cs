@@ -7,7 +7,14 @@ namespace Core.Common.Model.Transaccion.Base
         /// <summary>
         /// Constructor sin parametros
         /// </summary>
-        public Mensaje() { }
+        public Mensaje() {
+            Id = Guid.NewGuid();
+            HuboError = false;
+            FuenteError = "N/A";
+            CodigoRespuesta = 10000;
+            MensajeRespuesta = "Transacción Exitosa";
+            CodigoInternoRespuesta = 10000;
+        }
 
         /// <summary>
         /// Constructor con parametros

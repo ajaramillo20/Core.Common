@@ -21,7 +21,7 @@ namespace Core.Common.Util.Helper.Internal
         public static R MapeoDinamicoRespuesta<T, R>(T transaccion, R respuesta, string logica)
         {
             try
-            {              
+            {
                 var result = ObtenerDatosApiControladorAccionDAL.Execute(ObtenerLogicaInyectada(transaccion));
                 return MapeoDinamicoPropiedades(transaccion, respuesta, result.ObjetoRespuesta.ListaPropiedades);
             }
@@ -38,7 +38,7 @@ namespace Core.Common.Util.Helper.Internal
             return objOrigen.SelectToken(NOMBRE_VARIABLE_LOGICA_INYECTADA).ToString();
         }
 
-        private static R MapeoDinamicoPropiedades<T, R>(T transaccion, R respuesta, List<Propiedades> propiedades) 
+        private static R MapeoDinamicoPropiedades<T, R>(T transaccion, R respuesta, List<Propiedades> propiedades)
         {
             JObject objOrigen = JObject.Parse(JsonConvert.SerializeObject(transaccion));
             JObject objDestino = JObject.Parse(JsonConvert.SerializeObject(respuesta));
@@ -75,7 +75,7 @@ namespace Core.Common.Util.Helper.Internal
                         JToken valor = objOrigen.SelectToken(mapeo.PropiedadOrigen);
                         objDestino.SelectToken(mapeo.PropiedadDestino).Replace(valor);
                     }
-                } 
+                }
             });
 
             return JsonConvert.DeserializeObject<R>(objDestino.ToString());
