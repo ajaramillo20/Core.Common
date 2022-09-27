@@ -15,7 +15,7 @@ namespace Core.Common.Model.Transaccion.Respuesta
         {
             Meta = new Meta();
             Mensaje = new Mensaje();
-            Links = new Link();
+            //Links = new Link();
         }
 
         /// <summary>
@@ -27,7 +27,7 @@ namespace Core.Common.Model.Transaccion.Respuesta
             Data = item;
             Meta = new Meta();
             Mensaje = new Mensaje();
-            Links = new Link();
+            //Links = new Link();
         }
 
         /// <summary>
@@ -35,7 +35,7 @@ namespace Core.Common.Model.Transaccion.Respuesta
         /// </summary>
         public T Data { get; set; }
 
-        public Link Links { get; set; }
+        //public Link Links { get; set; }
 
         //
         // Summary:

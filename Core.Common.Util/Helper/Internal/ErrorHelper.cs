@@ -11,11 +11,11 @@ namespace Core.Common.Util.Helper.Internal
         /// </summary>
         /// <param name="codigoInternoRespuesta"></param>
         /// <returns></returns>
-        public static Mensaje ObtenerMensajeRespuesta(int codigoInternoRespuesta)
+        public static Mensaje ObtenerMensajeRespuesta(int codigoInternoRespuesta, string mensajePersonalizado="")
         {
             var errorMicroservicio = ObtenerErrorMicroservicioDAL.Execute(codigoInternoRespuesta);
-            var mensaje = new Mensaje(errorMicroservicio.CodigoInterno, errorMicroservicio.MensajeError, true, errorMicroservicio.Modulo, errorMicroservicio.CodigoInterno);
+            var mensaje = new Mensaje(errorMicroservicio.CodigoInterno, string.Format(errorMicroservicio.MensajeError,mensajePersonalizado), true, errorMicroservicio.Modulo, errorMicroservicio.CodigoInterno);
             return mensaje;
-        }
+        }      
     }
 }

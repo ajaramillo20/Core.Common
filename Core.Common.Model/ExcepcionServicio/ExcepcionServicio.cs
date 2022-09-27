@@ -14,11 +14,13 @@ namespace Core.Common.Model.ExcepcionServicio
             Mensaje = new Mensaje(exception.HResult, exception.Message, true, exception.Source,exception.HResult);
         }
 
-        public ExcepcionServicio(int codigoInternoError)
+        public ExcepcionServicio(int codigoInternoError, string mensajePersonalizado = "")
         {
             CodigoInternoError = codigoInternoError;
+            MensajePersonalizado = mensajePersonalizado;
         }
 
+        public string MensajePersonalizado { get; set; }
         public Mensaje Mensaje { get; set; }
         public int CodigoInternoError { get; set; }
     }
