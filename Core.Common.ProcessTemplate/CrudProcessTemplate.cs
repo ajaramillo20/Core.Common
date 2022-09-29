@@ -4,6 +4,7 @@ using Core.Common.ProcessTemplate.InternalBusinessLogic;
 using Core.Common.Model.Transaccion.Respuesta;
 using Core.Common.Model.Transaccion.Base;
 using Core.Common.Util.Helper.Internal;
+using Serilog.Core;
 
 namespace Core.Common.ProcessTemplate
 {
@@ -59,7 +60,9 @@ namespace Core.Common.ProcessTemplate
             var dataObtener = objetoTransaccional.Data;
             var respuesta = new EstructuraBase<Response>();
 
-            //dataObtener = DesencriptarObjeto(dataObtener);
+            //dataObtener = DesencriptarObjeto(dataObtener); 
+            //Datos entrada,
+            LogHelper.Write($"{dataObtener}, {fullNameSource}, Entrada");
             //LogHelper.LoguearDebug(dataObtener, fullnameSource, "TipoMensajeLogueo.Entrada");
             try
             {
@@ -79,7 +82,7 @@ namespace Core.Common.ProcessTemplate
                 ExcepcionServicio excepcionServicio = new ExcepcionServicio(ex);
                 respuesta.Mensaje = excepcionServicio.Mensaje;
                 dataObtener.Respuesta = respuesta.Mensaje;
-                //LogHelper.LoguearWarning(exServicio, fullnameSource);
+                //LogHelper.LoguearWarning(exServicio, fullnameSource,); (Podria ser TXT)
             }
             finally
             {
@@ -87,7 +90,8 @@ namespace Core.Common.ProcessTemplate
                 respuesta.Meta = logica.ArmarMetaRespuesta(dataObtener);
             }
 
-            //LogHelper.LoguearDebug(dataObtener, fullnameSource, "TipoMensajeLogueo.Salida");
+
+            //LogHelper.LoguearDebug(dataObtener, fullnameSource, "TipoMensajeLogueo.Salida"); (Podria ser BDD)
             //dataObtener = Encriptar(dataObtener);
             //ArmarRespuesta(logicaObtener, dataObtener, respuesta);
             return respuesta;

@@ -25,5 +25,6 @@ namespace Core.Common.Model.Transaccion
         public Endpoint Endpoint { get; set; }
         public Mensaje Respuesta { get; set; }
         public Auditoria Auditoria { get; set; }
+        public string Credenciales { get; set; }
     }
 }

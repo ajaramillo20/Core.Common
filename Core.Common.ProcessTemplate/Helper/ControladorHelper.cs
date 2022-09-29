@@ -1,7 +1,9 @@
 ﻿using Core.Common.Model.Transaccion;
 using Core.Common.Model.Transaccion.Respuesta;
 using Core.Common.ProcessTemplate.InternalBusinessLogic;
+using Core.Common.Util.Helper.Autenticacion;
 using Microsoft.AspNetCore.Mvc;
+using Org.BouncyCastle.Asn1.Ocsp;
 
 namespace Core.Common.ProcessTemplate.Helper
 {
@@ -85,6 +87,7 @@ namespace Core.Common.ProcessTemplate.Helper
             where W : TransaccionBase, new()
         {
             W transaccion = new W();
+            var token = JwtHelper.DesencriptarJWT(controlador.Request);
             return transaccion;
         }
 
@@ -92,7 +95,7 @@ namespace Core.Common.ProcessTemplate.Helper
             where W : TransaccionBase, new()
             where Request : class
         {
-            W transaccion = new W();
+            W transaccion = new W();            
             return transaccion;
         }
 
