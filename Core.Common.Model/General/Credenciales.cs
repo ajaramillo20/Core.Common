@@ -12,6 +12,8 @@ namespace Core.Common.Model.General
         public string Clave { get; set; }
         public string Tipo { get; set; }
         public string Codigo { get; set; }
-
+        
+        //Nombre
+        //Lista Roles
     }
 }

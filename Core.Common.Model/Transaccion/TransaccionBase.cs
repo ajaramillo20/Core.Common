@@ -1,4 +1,5 @@
-﻿using Core.Common.Model.Transaccion.Base;
+﻿using Core.Common.Model.General;
+using Core.Common.Model.Transaccion.Base;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,6 +26,6 @@ namespace Core.Common.Model.Transaccion
         public Endpoint Endpoint { get; set; }
         public Mensaje Respuesta { get; set; }
         public Auditoria Auditoria { get; set; }
-        public string Credenciales { get; set; }
+        public Credenciales Credenciales { get; set; }
     }
 }

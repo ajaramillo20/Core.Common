@@ -5,6 +5,10 @@ using Core.Common.Model.Transaccion.Respuesta;
 using Core.Common.Model.Transaccion.Base;
 using Core.Common.Util.Helper.Internal;
 using Serilog.Core;
+using Core.Common.Util.Helper.Datos;
+using Core.Common.Model.General;
+using Org.BouncyCastle.Crypto;
+using Microsoft.AspNetCore.Mvc.ViewFeatures;
 
 namespace Core.Common.ProcessTemplate
 {
@@ -57,13 +61,12 @@ namespace Core.Common.ProcessTemplate
         {
             var logica = _logicaObtener;
             string fullNameSource = logica.GetType().FullName ?? "NameSourceNotDefinedError";
+            var accion = "Obtener";
             var dataObtener = objetoTransaccional.Data;
-            var respuesta = new EstructuraBase<Response>();
-
+            var respuesta = new EstructuraBase<Response>();            
             //dataObtener = DesencriptarObjeto(dataObtener); 
             //Datos entrada,
-            LogHelper.Write($"{dataObtener}, {fullNameSource}, Entrada");
-            //LogHelper.LoguearDebug(dataObtener, fullnameSource, "TipoMensajeLogueo.Entrada");
+            LogHelper.EscribirLog(accion,dataObtener.ToJson(), fullNameSource, dataObtener.Credenciales.Codigo??"", TipoMensajeLog.Entrada);
             try
             {
                 //Seguridad.ValidarSegundoFactor(dataObtener);
@@ -71,18 +74,18 @@ namespace Core.Common.ProcessTemplate
                 logica.ValidarInformacion(dataObtener);
             }
             catch (ExcepcionServicio exServicio)
-            {
-                //Refactorizar
+            {                
                 exServicio.Mensaje = ErrorHelper.ObtenerMensajeRespuesta(exServicio.CodigoInternoError, exServicio.MensajePersonalizado);
                 respuesta.Mensaje = exServicio.Mensaje;
                 dataObtener.Respuesta = respuesta.Mensaje;
+                LogHelper.EscribirLog(accion,exServicio.Mensaje.MensajeRespuesta, fullNameSource, dataObtener.Credenciales.Codigo??"", TipoMensajeLog.Error);
             }
             catch (Exception ex)
             {
                 ExcepcionServicio excepcionServicio = new ExcepcionServicio(ex);
                 respuesta.Mensaje = excepcionServicio.Mensaje;
                 dataObtener.Respuesta = respuesta.Mensaje;
-                //LogHelper.LoguearWarning(exServicio, fullnameSource,); (Podria ser TXT)
+                LogHelper.EscribirLog(accion,ex.Message, fullNameSource, dataObtener.Credenciales.Codigo??"",TipoMensajeLog.Error);
             }
             finally
             {
@@ -90,8 +93,7 @@ namespace Core.Common.ProcessTemplate
                 respuesta.Meta = logica.ArmarMetaRespuesta(dataObtener);
             }
 
-
-            //LogHelper.LoguearDebug(dataObtener, fullnameSource, "TipoMensajeLogueo.Salida"); (Podria ser BDD)
+            LogHelper.EscribirLog(accion,dataObtener.ToJson(), fullNameSource, dataObtener.Credenciales.Codigo??"", TipoMensajeLog.Salida);
             //dataObtener = Encriptar(dataObtener);
             //ArmarRespuesta(logicaObtener, dataObtener, respuesta);
             return respuesta;
@@ -103,11 +105,12 @@ namespace Core.Common.ProcessTemplate
             var logica = _logicaObtenerTodos;
 
             string fullNameSource = logica.GetType().FullName ?? "NameSourceNotDefinedError";
+            string accion = "obtenerTodos";
             var dataObtenerTodos = objetoTransaccional.Data;
             var respuesta = new EstructuraBase<Response>();
 
             //dataObtener = DesencriptarObjeto(dataObtener);
-            //LogHelper.LoguearDebug(dataObtener, fullnameSource, "TipoMensajeLogueo.Entrada");
+            LogHelper.EscribirLog(accion, dataObtenerTodos.ToJson(), fullNameSource, dataObtenerTodos.Credenciales.Codigo??"", TipoMensajeLog.Entrada);
 
             try
             {
@@ -120,14 +123,14 @@ namespace Core.Common.ProcessTemplate
                 exServicio.Mensaje = ErrorHelper.ObtenerMensajeRespuesta(exServicio.CodigoInternoError, exServicio.MensajePersonalizado);
                 respuesta.Mensaje = exServicio.Mensaje;
                 dataObtenerTodos.Respuesta = respuesta.Mensaje;
-                //LogHelper.LoguearWarning(exServicio, fullnameSource);
+                LogHelper.EscribirLog(accion, exServicio.Mensaje.MensajeRespuesta, fullNameSource, dataObtenerTodos.Credenciales.Codigo??"", TipoMensajeLog.Error);
             }
             catch (Exception ex)
             {
                 ExcepcionServicio excepcionServicio = new ExcepcionServicio(ex);
                 respuesta.Mensaje = excepcionServicio.Mensaje;
                 dataObtenerTodos.Respuesta = respuesta.Mensaje;
-                //LogHelper.LoguearWarning(exServicio, fullnameSource);
+                LogHelper.EscribirLog(accion,ex.Message, fullNameSource, dataObtenerTodos.Credenciales.Codigo??"", TipoMensajeLog.Error);
             }
             finally
             {
@@ -135,7 +138,7 @@ namespace Core.Common.ProcessTemplate
                 respuesta.Meta = logica.ArmarMetaRespuesta(dataObtenerTodos);
             }
 
-            //LogHelper.LoguearDebug(dataObtener, fullnameSource, "TipoMensajeLogueo.Salida");
+            LogHelper.EscribirLog(accion, dataObtenerTodos.ToJson(), fullNameSource, dataObtenerTodos.Credenciales.Codigo??"", TipoMensajeLog.Salida);
             //dataObtener = Encriptar(dataObtener);
             //ArmarRespuesta(logicaObtener, dataObtener, respuesta);
             return respuesta;
@@ -145,13 +148,13 @@ namespace Core.Common.ProcessTemplate
         public EstructuraBase<Response> Insertar(EstructuraBase<Request> objetoTransaccional)
         {
             var logica = _logicaInsertar;
-
             string fullNameSource = logica.GetType().FullName ?? "NameSourceNotDefinedError";
+            const string accion = "Insertar";
             var dataInsertar = objetoTransaccional.Data;
             var respuesta = new EstructuraBase<Response>();
 
             //dataObtener = DesencriptarObjeto(dataObtener);
-            //LogHelper.LoguearDebug(dataObtener, fullnameSource, "TipoMensajeLogueo.Entrada");
+            LogHelper.EscribirLog(accion,dataInsertar.ToJson(), fullNameSource, dataInsertar.Credenciales.Codigo??""??"", TipoMensajeLog.Entrada);
 
             try
             {
@@ -166,14 +169,14 @@ namespace Core.Common.ProcessTemplate
                 exServicio.Mensaje = ErrorHelper.ObtenerMensajeRespuesta(exServicio.CodigoInternoError, exServicio.MensajePersonalizado);
                 respuesta.Mensaje = exServicio.Mensaje;
                 dataInsertar.Respuesta = respuesta.Mensaje;
-                //LogHelper.LoguearWarning(exServicio, fullnameSource);
+                LogHelper.EscribirLog(accion,exServicio.Mensaje.MensajeRespuesta, fullNameSource, dataInsertar.Credenciales.Codigo??"", TipoMensajeLog.Error);
             }
             catch (Exception ex)
             {
                 ExcepcionServicio excepcionServicio = new ExcepcionServicio(ex);
                 respuesta.Mensaje = excepcionServicio.Mensaje;
                 dataInsertar.Respuesta = respuesta.Mensaje;
-                //LogHelper.LoguearWarning(exServicio, fullnameSource);
+                LogHelper.EscribirLog(accion, ex.Message, fullNameSource, dataInsertar.Credenciales.Codigo??"", TipoMensajeLog.Error);
             }
             finally
             {
@@ -181,7 +184,7 @@ namespace Core.Common.ProcessTemplate
                 respuesta.Meta = logica.ArmarMetaRespuesta(dataInsertar);
             }
 
-            //LogHelper.LoguearDebug(dataObtener, fullnameSource, "TipoMensajeLogueo.Salida");
+            LogHelper.EscribirLog(accion,dataInsertar.ToJson(), fullNameSource, dataInsertar.Credenciales.Codigo??"", TipoMensajeLog.Salida);
             //dataObtener = Encriptar(dataObtener);
             //ArmarRespuesta(logicaObtener, dataObtener, respuesta);
             return respuesta;
@@ -192,11 +195,12 @@ namespace Core.Common.ProcessTemplate
             var logica = _logicaActualizar;
 
             string fullNameSource = logica.GetType().FullName ?? "NameSourceNotDefinedError";
+            string accion = "Actualizar";
             var dataActualizar = objetoTransaccional.Data;
             var respuesta = new EstructuraBase<Response>();
 
             //dataObtener = DesencriptarObjeto(dataObtener);
-            //LogHelper.LoguearDebug(dataObtener, fullnameSource, "TipoMensajeLogueo.Entrada");
+            LogHelper.EscribirLog(accion,dataActualizar.ToJson(), fullNameSource, dataActualizar.Credenciales.Codigo??"", TipoMensajeLog.Entrada);
 
             try
             {
@@ -211,14 +215,14 @@ namespace Core.Common.ProcessTemplate
                 exServicio.Mensaje = ErrorHelper.ObtenerMensajeRespuesta(exServicio.CodigoInternoError, exServicio.MensajePersonalizado);
                 respuesta.Mensaje = exServicio.Mensaje;
                 dataActualizar.Respuesta = respuesta.Mensaje;
-                //LogHelper.LoguearWarning(exServicio, fullnameSource);
+                LogHelper.EscribirLog(accion,exServicio.Mensaje.MensajeRespuesta, fullNameSource, dataActualizar.Credenciales.Codigo??"", TipoMensajeLog.Error);
             }
             catch (Exception ex)
             {
                 ExcepcionServicio excepcionServicio = new ExcepcionServicio(ex);
                 respuesta.Mensaje = excepcionServicio.Mensaje;
                 dataActualizar.Respuesta = respuesta.Mensaje; ;
-                //LogHelper.LoguearWarning(exServicio, fullnameSource);
+                LogHelper.EscribirLog(accion,ex.Message, fullNameSource, dataActualizar.Credenciales.Codigo??"", TipoMensajeLog.Error);
             }
             finally
             {
@@ -226,7 +230,7 @@ namespace Core.Common.ProcessTemplate
                 respuesta.Meta = logica.ArmarMetaRespuesta(dataActualizar);
             }
 
-            //LogHelper.LoguearDebug(dataObtener, fullnameSource, "TipoMensajeLogueo.Salida");
+            LogHelper.EscribirLog(accion, dataActualizar.ToJson(), fullNameSource, dataActualizar.Credenciales.Codigo??"", TipoMensajeLog.Salida);
             //dataObtener = Encriptar(dataObtener);
             //ArmarRespuesta(logicaObtener, dataObtener, respuesta);
             return respuesta;
@@ -238,11 +242,12 @@ namespace Core.Common.ProcessTemplate
             var logica = _logicaEliminar;
 
             string fullNameSource = logica.GetType().FullName ?? "NameSourceNotDefinedError";
+            const string accion = "Eliminar";
             var dataEliminar = objetoTransaccional.Data;
             var respuesta = new EstructuraBase<Response>();
 
             //dataObtener = DesencriptarObjeto(dataObtener);
-            //LogHelper.LoguearDebug(dataObtener, fullnameSource, "TipoMensajeLogueo.Entrada");
+            LogHelper.EscribirLog(accion,dataEliminar.ToJson(), fullNameSource, dataEliminar.Credenciales.Codigo??"", TipoMensajeLog.Entrada);
 
             try
             {
@@ -256,14 +261,14 @@ namespace Core.Common.ProcessTemplate
                 exServicio.Mensaje = ErrorHelper.ObtenerMensajeRespuesta(exServicio.CodigoInternoError, exServicio.MensajePersonalizado);
                 respuesta.Mensaje = exServicio.Mensaje;
                 dataEliminar.Respuesta = respuesta.Mensaje;
-                //LogHelper.LoguearWarning(exServicio, fullnameSource);
+                LogHelper.EscribirLog(accion, exServicio.Mensaje.MensajeRespuesta, fullNameSource, dataEliminar.Credenciales.Codigo??"", TipoMensajeLog.Error);
             }
             catch (Exception ex)
             {
                 ExcepcionServicio excepcionServicio = new ExcepcionServicio(ex);
                 respuesta.Mensaje = excepcionServicio.Mensaje;
                 dataEliminar.Respuesta = respuesta.Mensaje;
-                //LogHelper.LoguearWarning(exServicio, fullnameSource);
+                LogHelper.EscribirLog(accion,ex.Message, fullNameSource, dataEliminar.Credenciales.Codigo??"", TipoMensajeLog.Error);
             }
             finally
             {
@@ -271,7 +276,7 @@ namespace Core.Common.ProcessTemplate
                 respuesta.Meta = logica.ArmarMetaRespuesta(dataEliminar);
             }
 
-            //LogHelper.LoguearDebug(dataObtener, fullnameSource, "TipoMensajeLogueo.Salida");
+            LogHelper.EscribirLog(accion,dataEliminar.ToJson(), fullNameSource, dataEliminar.Credenciales.Codigo??"", TipoMensajeLog.Salida);
             //dataObtener = Encriptar(dataObtener);
             //ArmarRespuesta(logicaObtener, dataObtener, respuesta);
             return respuesta;
@@ -283,11 +288,12 @@ namespace Core.Common.ProcessTemplate
             var logica = _logicaProcesarTransaccion;
 
             string fullNameSource = logica.GetType().FullName ?? "NameSourceNotDefinedError";
+            const string accion = "ProcesarTransaccion";
             var dataProcesarTransaccion = objetoTransaccional.Data;
             var respuesta = new EstructuraBase<Response>();
 
             //dataObtener = DesencriptarObjeto(dataObtener);
-            //LogHelper.LoguearDebug(dataObtener, fullnameSource, "TipoMensajeLogueo.Entrada");
+            LogHelper.EscribirLog(accion,dataProcesarTransaccion.ToJson(), fullNameSource, dataProcesarTransaccion.Credenciales.Codigo??"", TipoMensajeLog.Entrada);
 
             try
             {
@@ -303,22 +309,22 @@ namespace Core.Common.ProcessTemplate
                 exServicio.Mensaje = ErrorHelper.ObtenerMensajeRespuesta(exServicio.CodigoInternoError, exServicio.MensajePersonalizado);
                 respuesta.Mensaje = exServicio.Mensaje;
                 dataProcesarTransaccion.Respuesta = respuesta.Mensaje;
-                //LogHelper.LoguearWarning(exServicio, fullnameSource);
+                LogHelper.EscribirLog(accion,exServicio.Mensaje.MensajeRespuesta, fullNameSource, dataProcesarTransaccion.Credenciales.Codigo??"", TipoMensajeLog.Error);
             }
             catch (Exception ex)
             {
                 ExcepcionServicio excepcionServicio = new ExcepcionServicio(ex);
                 respuesta.Mensaje = excepcionServicio.Mensaje;
                 dataProcesarTransaccion.Respuesta = respuesta.Mensaje;
-                //LogHelper.LoguearWarning(exServicio, fullnameSource);
+                LogHelper.EscribirLog(accion,ex.Message, fullNameSource, dataProcesarTransaccion.Credenciales.Codigo??"", TipoMensajeLog.Error);
             }
             finally
             {
                 respuesta.Data = logica.ArmarObjetoRespuesta(dataProcesarTransaccion);
                 respuesta.Meta = logica.ArmarMetaRespuesta(dataProcesarTransaccion);
             }
+            LogHelper.EscribirLog(accion, dataProcesarTransaccion.ToJson(), fullNameSource, dataProcesarTransaccion.Credenciales.Codigo??"", TipoMensajeLog.Salida);
 
-            //LogHelper.LoguearDebug(dataObtener, fullnameSource, "TipoMensajeLogueo.Salida");
             //dataObtener = Encriptar(dataObtener);
             //ArmarRespuesta(logicaObtener, dataObtener, respuesta);
             return respuesta;
@@ -328,13 +334,13 @@ namespace Core.Common.ProcessTemplate
         public EstructuraBase<Response> ProcesarTransaccionSimple(EstructuraBase<Request> objetoTransaccional)
         {
             var logica = _logicaProcesarTransaccionSimple;
-
+            const string accion = "ProcesarTransaccionSimple";
             string fullNameSource = logica.GetType().FullName ?? "NameSourceNotDefinedError";
             var dataProcesarTransaccionSimple = objetoTransaccional.Data;
             var respuesta = new EstructuraBase<Response>();
 
             //dataObtener = DesencriptarObjeto(dataObtener);
-            //LogHelper.LoguearDebug(dataObtener, fullnameSource, "TipoMensajeLogueo.Entrada");
+            LogHelper.EscribirLog(accion, dataProcesarTransaccionSimple.ToJson(), fullNameSource, dataProcesarTransaccionSimple.Credenciales.Codigo??"", TipoMensajeLog.Entrada);
 
             try
             {
@@ -348,22 +354,22 @@ namespace Core.Common.ProcessTemplate
                 exServicio.Mensaje = ErrorHelper.ObtenerMensajeRespuesta(exServicio.CodigoInternoError, exServicio.MensajePersonalizado);
                 respuesta.Mensaje = exServicio.Mensaje;
                 dataProcesarTransaccionSimple.Respuesta = respuesta.Mensaje;
-                //LogHelper.LoguearWarning(exServicio, fullnameSource);
+                LogHelper.EscribirLog(accion, exServicio.Mensaje.MensajeRespuesta, fullNameSource, dataProcesarTransaccionSimple.Credenciales.Codigo??"", TipoMensajeLog.Error);
             }
             catch (Exception ex)
             {
                 ExcepcionServicio excepcionServicio = new ExcepcionServicio(ex);
                 respuesta.Mensaje = excepcionServicio.Mensaje;
                 dataProcesarTransaccionSimple.Respuesta = respuesta.Mensaje;
-                //LogHelper.LoguearWarning(exServicio, fullnameSource);
+                LogHelper.EscribirLog(accion, ex.Message, fullNameSource, dataProcesarTransaccionSimple.Credenciales.Codigo??"", TipoMensajeLog.Error);
             }
             finally
             {
                 respuesta.Data = logica.ArmarObjetoRespuesta(dataProcesarTransaccionSimple);
-                respuesta.Meta = logica.ArmarMetaRespuesta(dataProcesarTransaccionSimple);                     
+                respuesta.Meta = logica.ArmarMetaRespuesta(dataProcesarTransaccionSimple);
             }
 
-            //LogHelper.LoguearDebug(dataObtener, fullnameSource, "TipoMensajeLogueo.Salida");
+            LogHelper.EscribirLog(accion, dataProcesarTransaccionSimple.ToJson(), fullNameSource, dataProcesarTransaccionSimple.Credenciales.Codigo??"", TipoMensajeLog.Salida);
             //dataObtener = Encriptar(dataObtener);
             //ArmarRespuesta(logicaObtener, dataObtener, respuesta);
             return respuesta;

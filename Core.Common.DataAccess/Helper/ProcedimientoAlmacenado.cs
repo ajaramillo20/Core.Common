@@ -28,6 +28,16 @@ namespace Core.Common.DataAccess.Helper
             public const string PARAM_CODIGO_RESPUESTA_INTERNO ="@CodigoInternoRespuesta";
         }
 
+        public static class PA_CON_AGREGAR_LOG_MICROSERVICIO
+        {
+            public const string PA_NOMBRE = "PA_CON_AGREGAR_LOG_MICROSERVICIO";
+            public const string PARAM_LOG_ACCION = "@Accion";
+            public const string PARAM_LOG_SOURCE = "@Source";
+            public const string PARAM_LOG_TIPO_MENSAJE = "@TipoMensaje";
+            public const string PARAM_LOG_FECHA = "@Fecha";
+            public const string PARAM_CREDENCIAL_CODIGO = "@CredencialCodigo";
+            public const string PARAM_OBJETO_JSON = "@ObjetoTrxJson";
+        }
 
     }
      

@@ -19,6 +19,7 @@ namespace Core.Common.ProcessTemplate.Helper
             where Logica : IObtener<Transaccion, Response>
         {
             EstructuraBase<Transaccion> transaccionBLL = new EstructuraBase<Transaccion>(transaccion);
+            JwtHelper.CheckJWT(controlador.Request, transaccion);
             transaccion.Endpoint.LogicaInyectada = ObtenerNombreLogicaInyectada(inyectedLogic.ToString());
             return new CrudProcessTemplate<Transaccion, Response>(inyectedLogic).Obtener(transaccionBLL);
         }
@@ -29,6 +30,7 @@ namespace Core.Common.ProcessTemplate.Helper
             where Logica : IObtenerTodos<Transaccion, Response>
         {
             EstructuraBase<Transaccion> transaccionBLL = new EstructuraBase<Transaccion>(transaccion);
+            JwtHelper.CheckJWT(controlador.Request, transaccion);
             transaccion.Endpoint.LogicaInyectada = ObtenerNombreLogicaInyectada(inyectedLogic.ToString());
             return new CrudProcessTemplate<Transaccion, Response>(inyectedLogic).ObtenerTodos(transaccionBLL);
         }
@@ -87,7 +89,7 @@ namespace Core.Common.ProcessTemplate.Helper
             where W : TransaccionBase, new()
         {
             W transaccion = new W();
-            var token = JwtHelper.DesencriptarJWT(controlador.Request);
+            JwtHelper.CheckJWT(controlador.Request, transaccion);            
             return transaccion;
         }
 

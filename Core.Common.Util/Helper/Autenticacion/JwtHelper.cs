@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+﻿using Core.Common.Model.Transaccion;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
@@ -11,6 +12,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using System.Transactions;
 
 namespace Core.Common.Util.Helper.Autenticacion
 {
@@ -109,7 +111,7 @@ namespace Core.Common.Util.Helper.Autenticacion
         /// <param name="request"></param>
         /// <returns></returns>
         public static JwtSecurityToken DesencriptarJWT(string tokenEncriptado)
-        {            
+        {
             var handler = new JwtSecurityTokenHandler();
             var jwtSecurityToken = handler.ReadJwtToken(tokenEncriptado);
 
@@ -127,6 +129,20 @@ namespace Core.Common.Util.Helper.Autenticacion
             var jti = securityToken.Claims.First(c => c.Type == claim).Value;
             return jti;
         }
-       
+
+        public static void CheckJWT(HttpRequest request, TransaccionBase transaccion)
+        {
+            if (!string.IsNullOrEmpty(request.Headers["Authorization"].ToString()))
+            {
+                var token = DesencriptarJWT(request);
+                transaccion.Credenciales = new Model.General.Credenciales
+                {
+                    Usuario = GetClaim(token, "Usuario"),
+                    Codigo = GetClaim(token, "Entidad"),
+                    Clave = GetClaim(token, "Password"),
+                    Tipo = GetClaim(token, "Tipo")
+                };
+            }//crendeical nulo
+        }
     }
 }

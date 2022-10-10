@@ -29,5 +29,13 @@
         Object = 2,
     }
 
+    public enum TipoMensajeLog
+    { 
+      Entrada,
+      Salida,
+      Error,
+      Advertencia,
+      Debug
+    }
 
 }
