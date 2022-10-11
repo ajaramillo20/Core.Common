@@ -66,7 +66,7 @@ namespace Core.Common.ProcessTemplate
             var respuesta = new EstructuraBase<Response>();            
             //dataObtener = DesencriptarObjeto(dataObtener); 
             //Datos entrada,
-            LogHelper.EscribirLog(accion,dataObtener.ToJson(), fullNameSource, dataObtener.Credenciales.Codigo??"", TipoMensajeLog.Entrada);
+            LogHelper.EscribirLog(accion,dataObtener.ToJson(), fullNameSource, (string.IsNullOrEmpty(dataObtener.Credenciales.Codigo)?"":dataObtener.Credenciales.Codigo), TipoMensajeLog.Entrada);
             try
             {
                 //Seguridad.ValidarSegundoFactor(dataObtener);
@@ -78,14 +78,14 @@ namespace Core.Common.ProcessTemplate
                 exServicio.Mensaje = ErrorHelper.ObtenerMensajeRespuesta(exServicio.CodigoInternoError, exServicio.MensajePersonalizado);
                 respuesta.Mensaje = exServicio.Mensaje;
                 dataObtener.Respuesta = respuesta.Mensaje;
-                LogHelper.EscribirLog(accion,exServicio.Mensaje.MensajeRespuesta, fullNameSource, dataObtener.Credenciales.Codigo??"", TipoMensajeLog.Error);
+                LogHelper.EscribirLog(accion,exServicio.Mensaje.MensajeRespuesta, fullNameSource, (string.IsNullOrEmpty(dataObtener.Credenciales.Codigo)?"":dataObtener.Credenciales.Codigo), TipoMensajeLog.Error);
             }
             catch (Exception ex)
             {
                 ExcepcionServicio excepcionServicio = new ExcepcionServicio(ex);
                 respuesta.Mensaje = excepcionServicio.Mensaje;
                 dataObtener.Respuesta = respuesta.Mensaje;
-                LogHelper.EscribirLog(accion,ex.Message, fullNameSource, dataObtener.Credenciales.Codigo??"",TipoMensajeLog.Error);
+                LogHelper.EscribirLog(accion,ex.Message, fullNameSource, (string.IsNullOrEmpty(dataObtener.Credenciales.Codigo)?"":dataObtener.Credenciales.Codigo),TipoMensajeLog.Error);
             }
             finally
             {
@@ -93,7 +93,7 @@ namespace Core.Common.ProcessTemplate
                 respuesta.Meta = logica.ArmarMetaRespuesta(dataObtener);
             }
 
-            LogHelper.EscribirLog(accion,dataObtener.ToJson(), fullNameSource, dataObtener.Credenciales.Codigo??"", TipoMensajeLog.Salida);
+            LogHelper.EscribirLog(accion,dataObtener.ToJson(), fullNameSource, (string.IsNullOrEmpty(dataObtener.Credenciales.Codigo)?"":dataObtener.Credenciales.Codigo), TipoMensajeLog.Salida);
             //dataObtener = Encriptar(dataObtener);
             //ArmarRespuesta(logicaObtener, dataObtener, respuesta);
             return respuesta;
@@ -107,10 +107,9 @@ namespace Core.Common.ProcessTemplate
             string fullNameSource = logica.GetType().FullName ?? "NameSourceNotDefinedError";
             string accion = "obtenerTodos";
             var dataObtenerTodos = objetoTransaccional.Data;
-            var respuesta = new EstructuraBase<Response>();
-
+            var respuesta = new EstructuraBase<Response>();            
             //dataObtener = DesencriptarObjeto(dataObtener);
-            LogHelper.EscribirLog(accion, dataObtenerTodos.ToJson(), fullNameSource, dataObtenerTodos.Credenciales.Codigo??"", TipoMensajeLog.Entrada);
+            LogHelper.EscribirLog(accion, dataObtenerTodos.ToJson(), fullNameSource, (string.IsNullOrEmpty(dataObtenerTodos.Credenciales.Codigo)?"":dataObtenerTodos.Credenciales.Codigo), TipoMensajeLog.Entrada);
 
             try
             {
@@ -123,14 +122,14 @@ namespace Core.Common.ProcessTemplate
                 exServicio.Mensaje = ErrorHelper.ObtenerMensajeRespuesta(exServicio.CodigoInternoError, exServicio.MensajePersonalizado);
                 respuesta.Mensaje = exServicio.Mensaje;
                 dataObtenerTodos.Respuesta = respuesta.Mensaje;
-                LogHelper.EscribirLog(accion, exServicio.Mensaje.MensajeRespuesta, fullNameSource, dataObtenerTodos.Credenciales.Codigo??"", TipoMensajeLog.Error);
+                LogHelper.EscribirLog(accion, exServicio.Mensaje.MensajeRespuesta, fullNameSource, (string.IsNullOrEmpty(dataObtenerTodos.Credenciales.Codigo)?"":dataObtenerTodos.Credenciales.Codigo), TipoMensajeLog.Error);
             }
             catch (Exception ex)
             {
                 ExcepcionServicio excepcionServicio = new ExcepcionServicio(ex);
                 respuesta.Mensaje = excepcionServicio.Mensaje;
                 dataObtenerTodos.Respuesta = respuesta.Mensaje;
-                LogHelper.EscribirLog(accion,ex.Message, fullNameSource, dataObtenerTodos.Credenciales.Codigo??"", TipoMensajeLog.Error);
+                LogHelper.EscribirLog(accion,ex.Message, fullNameSource, (string.IsNullOrEmpty(dataObtenerTodos.Credenciales.Codigo)?"":dataObtenerTodos.Credenciales.Codigo), TipoMensajeLog.Error);
             }
             finally
             {
@@ -138,7 +137,7 @@ namespace Core.Common.ProcessTemplate
                 respuesta.Meta = logica.ArmarMetaRespuesta(dataObtenerTodos);
             }
 
-            LogHelper.EscribirLog(accion, dataObtenerTodos.ToJson(), fullNameSource, dataObtenerTodos.Credenciales.Codigo??"", TipoMensajeLog.Salida);
+            LogHelper.EscribirLog(accion, dataObtenerTodos.ToJson(), fullNameSource, (string.IsNullOrEmpty(dataObtenerTodos.Credenciales.Codigo)?"":dataObtenerTodos.Credenciales.Codigo), TipoMensajeLog.Salida);
             //dataObtener = Encriptar(dataObtener);
             //ArmarRespuesta(logicaObtener, dataObtener, respuesta);
             return respuesta;
@@ -154,7 +153,7 @@ namespace Core.Common.ProcessTemplate
             var respuesta = new EstructuraBase<Response>();
 
             //dataObtener = DesencriptarObjeto(dataObtener);
-            LogHelper.EscribirLog(accion,dataInsertar.ToJson(), fullNameSource, dataInsertar.Credenciales.Codigo??""??"", TipoMensajeLog.Entrada);
+            LogHelper.EscribirLog(accion,dataInsertar.ToJson(), fullNameSource, (string.IsNullOrEmpty(dataInsertar.Credenciales.Codigo)?"":dataInsertar.Credenciales.Codigo)??"", TipoMensajeLog.Entrada);
 
             try
             {
@@ -169,14 +168,14 @@ namespace Core.Common.ProcessTemplate
                 exServicio.Mensaje = ErrorHelper.ObtenerMensajeRespuesta(exServicio.CodigoInternoError, exServicio.MensajePersonalizado);
                 respuesta.Mensaje = exServicio.Mensaje;
                 dataInsertar.Respuesta = respuesta.Mensaje;
-                LogHelper.EscribirLog(accion,exServicio.Mensaje.MensajeRespuesta, fullNameSource, dataInsertar.Credenciales.Codigo??"", TipoMensajeLog.Error);
+                LogHelper.EscribirLog(accion,exServicio.Mensaje.MensajeRespuesta, fullNameSource, (string.IsNullOrEmpty(dataInsertar.Credenciales.Codigo)?"":dataInsertar.Credenciales.Codigo), TipoMensajeLog.Error);
             }
             catch (Exception ex)
             {
                 ExcepcionServicio excepcionServicio = new ExcepcionServicio(ex);
                 respuesta.Mensaje = excepcionServicio.Mensaje;
                 dataInsertar.Respuesta = respuesta.Mensaje;
-                LogHelper.EscribirLog(accion, ex.Message, fullNameSource, dataInsertar.Credenciales.Codigo??"", TipoMensajeLog.Error);
+                LogHelper.EscribirLog(accion, ex.Message, fullNameSource, (string.IsNullOrEmpty(dataInsertar.Credenciales.Codigo)?"":dataInsertar.Credenciales.Codigo), TipoMensajeLog.Error);
             }
             finally
             {
@@ -184,7 +183,7 @@ namespace Core.Common.ProcessTemplate
                 respuesta.Meta = logica.ArmarMetaRespuesta(dataInsertar);
             }
 
-            LogHelper.EscribirLog(accion,dataInsertar.ToJson(), fullNameSource, dataInsertar.Credenciales.Codigo??"", TipoMensajeLog.Salida);
+            LogHelper.EscribirLog(accion,dataInsertar.ToJson(), fullNameSource, (string.IsNullOrEmpty(dataInsertar.Credenciales.Codigo)?"":dataInsertar.Credenciales.Codigo), TipoMensajeLog.Salida);
             //dataObtener = Encriptar(dataObtener);
             //ArmarRespuesta(logicaObtener, dataObtener, respuesta);
             return respuesta;
@@ -199,8 +198,7 @@ namespace Core.Common.ProcessTemplate
             var dataActualizar = objetoTransaccional.Data;
             var respuesta = new EstructuraBase<Response>();
 
-            //dataObtener = DesencriptarObjeto(dataObtener);
-            LogHelper.EscribirLog(accion,dataActualizar.ToJson(), fullNameSource, dataActualizar.Credenciales.Codigo??"", TipoMensajeLog.Entrada);
+            //dataObtener = DesencriptarObjeto(dataObtener);dataActualizar.Credenciales.Codigo), TipoMensajeLog.Entrada);
 
             try
             {
@@ -215,14 +213,14 @@ namespace Core.Common.ProcessTemplate
                 exServicio.Mensaje = ErrorHelper.ObtenerMensajeRespuesta(exServicio.CodigoInternoError, exServicio.MensajePersonalizado);
                 respuesta.Mensaje = exServicio.Mensaje;
                 dataActualizar.Respuesta = respuesta.Mensaje;
-                LogHelper.EscribirLog(accion,exServicio.Mensaje.MensajeRespuesta, fullNameSource, dataActualizar.Credenciales.Codigo??"", TipoMensajeLog.Error);
+                LogHelper.EscribirLog(accion,exServicio.Mensaje.MensajeRespuesta, fullNameSource, (string.IsNullOrEmpty(dataActualizar.Credenciales.Codigo)?"": dataActualizar.Credenciales.Codigo), TipoMensajeLog.Error);
             }
             catch (Exception ex)
             {
                 ExcepcionServicio excepcionServicio = new ExcepcionServicio(ex);
                 respuesta.Mensaje = excepcionServicio.Mensaje;
                 dataActualizar.Respuesta = respuesta.Mensaje; ;
-                LogHelper.EscribirLog(accion,ex.Message, fullNameSource, dataActualizar.Credenciales.Codigo??"", TipoMensajeLog.Error);
+                LogHelper.EscribirLog(accion,ex.Message, fullNameSource, (string.IsNullOrEmpty(dataActualizar.Credenciales.Codigo)?"": dataActualizar.Credenciales.Codigo), TipoMensajeLog.Error);
             }
             finally
             {
@@ -230,7 +228,7 @@ namespace Core.Common.ProcessTemplate
                 respuesta.Meta = logica.ArmarMetaRespuesta(dataActualizar);
             }
 
-            LogHelper.EscribirLog(accion, dataActualizar.ToJson(), fullNameSource, dataActualizar.Credenciales.Codigo??"", TipoMensajeLog.Salida);
+            LogHelper.EscribirLog(accion, dataActualizar.ToJson(), fullNameSource, (string.IsNullOrEmpty(dataActualizar.Credenciales.Codigo)?"": dataActualizar.Credenciales.Codigo), TipoMensajeLog.Salida);
             //dataObtener = Encriptar(dataObtener);
             //ArmarRespuesta(logicaObtener, dataObtener, respuesta);
             return respuesta;
@@ -247,7 +245,7 @@ namespace Core.Common.ProcessTemplate
             var respuesta = new EstructuraBase<Response>();
 
             //dataObtener = DesencriptarObjeto(dataObtener);
-            LogHelper.EscribirLog(accion,dataEliminar.ToJson(), fullNameSource, dataEliminar.Credenciales.Codigo??"", TipoMensajeLog.Entrada);
+            LogHelper.EscribirLog(accion,dataEliminar.ToJson(), fullNameSource, (string.IsNullOrEmpty(dataEliminar.Credenciales.Codigo)?"":dataEliminar.Credenciales.Codigo), TipoMensajeLog.Entrada);
 
             try
             {
@@ -261,14 +259,14 @@ namespace Core.Common.ProcessTemplate
                 exServicio.Mensaje = ErrorHelper.ObtenerMensajeRespuesta(exServicio.CodigoInternoError, exServicio.MensajePersonalizado);
                 respuesta.Mensaje = exServicio.Mensaje;
                 dataEliminar.Respuesta = respuesta.Mensaje;
-                LogHelper.EscribirLog(accion, exServicio.Mensaje.MensajeRespuesta, fullNameSource, dataEliminar.Credenciales.Codigo??"", TipoMensajeLog.Error);
+                LogHelper.EscribirLog(accion, exServicio.Mensaje.MensajeRespuesta, fullNameSource, (string.IsNullOrEmpty(dataEliminar.Credenciales.Codigo)?"":dataEliminar.Credenciales.Codigo), TipoMensajeLog.Error);
             }
             catch (Exception ex)
             {
                 ExcepcionServicio excepcionServicio = new ExcepcionServicio(ex);
                 respuesta.Mensaje = excepcionServicio.Mensaje;
                 dataEliminar.Respuesta = respuesta.Mensaje;
-                LogHelper.EscribirLog(accion,ex.Message, fullNameSource, dataEliminar.Credenciales.Codigo??"", TipoMensajeLog.Error);
+                LogHelper.EscribirLog(accion,ex.Message, fullNameSource, (string.IsNullOrEmpty(dataEliminar.Credenciales.Codigo)?"":dataEliminar.Credenciales.Codigo), TipoMensajeLog.Error);
             }
             finally
             {
@@ -276,7 +274,7 @@ namespace Core.Common.ProcessTemplate
                 respuesta.Meta = logica.ArmarMetaRespuesta(dataEliminar);
             }
 
-            LogHelper.EscribirLog(accion,dataEliminar.ToJson(), fullNameSource, dataEliminar.Credenciales.Codigo??"", TipoMensajeLog.Salida);
+            LogHelper.EscribirLog(accion,dataEliminar.ToJson(), fullNameSource, (string.IsNullOrEmpty(dataEliminar.Credenciales.Codigo)?"":dataEliminar.Credenciales.Codigo), TipoMensajeLog.Salida);
             //dataObtener = Encriptar(dataObtener);
             //ArmarRespuesta(logicaObtener, dataObtener, respuesta);
             return respuesta;
@@ -293,7 +291,7 @@ namespace Core.Common.ProcessTemplate
             var respuesta = new EstructuraBase<Response>();
 
             //dataObtener = DesencriptarObjeto(dataObtener);
-            LogHelper.EscribirLog(accion,dataProcesarTransaccion.ToJson(), fullNameSource, dataProcesarTransaccion.Credenciales.Codigo??"", TipoMensajeLog.Entrada);
+            LogHelper.EscribirLog(accion,dataProcesarTransaccion.ToJson(), fullNameSource, (string.IsNullOrEmpty(dataProcesarTransaccion.Credenciales.Codigo)?"":dataProcesarTransaccion.Credenciales.Codigo), TipoMensajeLog.Entrada);
 
             try
             {
@@ -309,21 +307,21 @@ namespace Core.Common.ProcessTemplate
                 exServicio.Mensaje = ErrorHelper.ObtenerMensajeRespuesta(exServicio.CodigoInternoError, exServicio.MensajePersonalizado);
                 respuesta.Mensaje = exServicio.Mensaje;
                 dataProcesarTransaccion.Respuesta = respuesta.Mensaje;
-                LogHelper.EscribirLog(accion,exServicio.Mensaje.MensajeRespuesta, fullNameSource, dataProcesarTransaccion.Credenciales.Codigo??"", TipoMensajeLog.Error);
+                LogHelper.EscribirLog(accion,exServicio.Mensaje.MensajeRespuesta, fullNameSource, (string.IsNullOrEmpty(dataProcesarTransaccion.Credenciales.Codigo)?"":dataProcesarTransaccion.Credenciales.Codigo), TipoMensajeLog.Error);
             }
             catch (Exception ex)
             {
                 ExcepcionServicio excepcionServicio = new ExcepcionServicio(ex);
                 respuesta.Mensaje = excepcionServicio.Mensaje;
                 dataProcesarTransaccion.Respuesta = respuesta.Mensaje;
-                LogHelper.EscribirLog(accion,ex.Message, fullNameSource, dataProcesarTransaccion.Credenciales.Codigo??"", TipoMensajeLog.Error);
+                LogHelper.EscribirLog(accion,ex.Message, fullNameSource, (string.IsNullOrEmpty(dataProcesarTransaccion.Credenciales.Codigo)?"":dataProcesarTransaccion.Credenciales.Codigo), TipoMensajeLog.Error);
             }
             finally
             {
                 respuesta.Data = logica.ArmarObjetoRespuesta(dataProcesarTransaccion);
                 respuesta.Meta = logica.ArmarMetaRespuesta(dataProcesarTransaccion);
             }
-            LogHelper.EscribirLog(accion, dataProcesarTransaccion.ToJson(), fullNameSource, dataProcesarTransaccion.Credenciales.Codigo??"", TipoMensajeLog.Salida);
+            LogHelper.EscribirLog(accion, dataProcesarTransaccion.ToJson(), fullNameSource, (string.IsNullOrEmpty(dataProcesarTransaccion.Credenciales.Codigo)?"":dataProcesarTransaccion.Credenciales.Codigo), TipoMensajeLog.Salida);
 
             //dataObtener = Encriptar(dataObtener);
             //ArmarRespuesta(logicaObtener, dataObtener, respuesta);
@@ -340,7 +338,7 @@ namespace Core.Common.ProcessTemplate
             var respuesta = new EstructuraBase<Response>();
 
             //dataObtener = DesencriptarObjeto(dataObtener);
-            LogHelper.EscribirLog(accion, dataProcesarTransaccionSimple.ToJson(), fullNameSource, dataProcesarTransaccionSimple.Credenciales.Codigo??"", TipoMensajeLog.Entrada);
+            LogHelper.EscribirLog(accion, dataProcesarTransaccionSimple.ToJson(), fullNameSource, (string.IsNullOrEmpty(dataProcesarTransaccionSimple.Credenciales.Codigo)?"":dataProcesarTransaccionSimple.Credenciales.Codigo), TipoMensajeLog.Entrada);
 
             try
             {
@@ -354,14 +352,14 @@ namespace Core.Common.ProcessTemplate
                 exServicio.Mensaje = ErrorHelper.ObtenerMensajeRespuesta(exServicio.CodigoInternoError, exServicio.MensajePersonalizado);
                 respuesta.Mensaje = exServicio.Mensaje;
                 dataProcesarTransaccionSimple.Respuesta = respuesta.Mensaje;
-                LogHelper.EscribirLog(accion, exServicio.Mensaje.MensajeRespuesta, fullNameSource, dataProcesarTransaccionSimple.Credenciales.Codigo??"", TipoMensajeLog.Error);
+                LogHelper.EscribirLog(accion, exServicio.Mensaje.MensajeRespuesta, fullNameSource, (string.IsNullOrEmpty(dataProcesarTransaccionSimple.Credenciales.Codigo)?"":dataProcesarTransaccionSimple.Credenciales.Codigo), TipoMensajeLog.Error);
             }
             catch (Exception ex)
             {
                 ExcepcionServicio excepcionServicio = new ExcepcionServicio(ex);
                 respuesta.Mensaje = excepcionServicio.Mensaje;
                 dataProcesarTransaccionSimple.Respuesta = respuesta.Mensaje;
-                LogHelper.EscribirLog(accion, ex.Message, fullNameSource, dataProcesarTransaccionSimple.Credenciales.Codigo??"", TipoMensajeLog.Error);
+                LogHelper.EscribirLog(accion, ex.Message, fullNameSource, (string.IsNullOrEmpty(dataProcesarTransaccionSimple.Credenciales.Codigo)?"":dataProcesarTransaccionSimple.Credenciales.Codigo), TipoMensajeLog.Error);
             }
             finally
             {
@@ -369,7 +367,7 @@ namespace Core.Common.ProcessTemplate
                 respuesta.Meta = logica.ArmarMetaRespuesta(dataProcesarTransaccionSimple);
             }
 
-            LogHelper.EscribirLog(accion, dataProcesarTransaccionSimple.ToJson(), fullNameSource, dataProcesarTransaccionSimple.Credenciales.Codigo??"", TipoMensajeLog.Salida);
+            LogHelper.EscribirLog(accion, dataProcesarTransaccionSimple.ToJson(), fullNameSource, (string.IsNullOrEmpty(dataProcesarTransaccionSimple.Credenciales.Codigo)?"":dataProcesarTransaccionSimple.Credenciales.Codigo), TipoMensajeLog.Salida);
             //dataObtener = Encriptar(dataObtener);
             //ArmarRespuesta(logicaObtener, dataObtener, respuesta);
             return respuesta;

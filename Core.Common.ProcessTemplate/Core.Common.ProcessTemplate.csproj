@@ -5,7 +5,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
-    <Version>1.1.19.2</Version>
+    <Version>1.2.1</Version>
     <Authors>$(Authors)</Authors>
     <Company>Originarsa SA</Company>
     <RepositoryUrl>http://srvwintfs/Originarsa/Microservicios/_packaging/Core.Common/nuget/v3/index.json</RepositoryUrl>

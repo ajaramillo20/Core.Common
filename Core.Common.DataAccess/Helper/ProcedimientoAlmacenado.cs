@@ -39,6 +39,14 @@ namespace Core.Common.DataAccess.Helper
             public const string PARAM_OBJETO_JSON = "@ObjetoTrxJson";
         }
 
+        public static class PA_CON_API_OBTENER_DATOS_PETICION
+        {
+            public const string PARAM_CODIGO_CREDENCIAL = "@CodigoCredencial";
+            public static string PA_NOMBRE = "PA_CON_API_OBTENER_DATOS_PETICION";
+            public static string PA_NOMBRE_HEADERS = "PA_CON_API_OBTENER_HEADERS_PETICION";
+            public static string PA_NOMBRE_QUERY_PARAMS = "PA_CON_API_OBTENER_QUERY_PARAMS_PETICION";
+        }
+
     }
      
 }

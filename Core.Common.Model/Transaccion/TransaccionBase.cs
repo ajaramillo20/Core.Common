@@ -12,7 +12,7 @@ namespace Core.Common.Model.Transaccion
     {
         public TransaccionBase()
         {
-            Respuesta = new Mensaje(10000, "OK", false, string.Empty,10000);
+            Respuesta = new Mensaje(10000, "OK", false, string.Empty, 10000);
             Auditoria = new Auditoria();
             Terminal = new Terminal();
             Endpoint = new Endpoint();
@@ -26,6 +26,11 @@ namespace Core.Common.Model.Transaccion
         public Endpoint Endpoint { get; set; }
         public Mensaje Respuesta { get; set; }
         public Auditoria Auditoria { get; set; }
-        public Credenciales Credenciales { get; set; }
+        public Credenciales Credenciales { get; set; } = new Credenciales() { 
+         Clave=string.Empty,
+         Codigo=string.Empty,
+         Tipo=string.Empty,
+         Usuario = string.Empty
+        };
     }
 }
