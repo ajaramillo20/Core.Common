@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <Version>1.2.1</Version>
+    <Authors>Carlos Silva</Authors>
+    <Company>Originarsa S.A.</Company>
+    <Description>Libreria que incluye modelos y componentes utiles para implmementar aplicaciones web (Frontend)</Description>
+    <Copyright>CS</Copyright>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.Configuration" Version="6.0.1" />
+  </ItemGroup>
+
+</Project>
