@@ -89,7 +89,8 @@ namespace Core.Common.ProcessTemplate.Helper
             where W : TransaccionBase, new()
         {
             W transaccion = new W();
-            JwtHelper.CheckJWT(controlador.Request, transaccion);            
+            JwtHelper.CheckJWT(controlador.Request, transaccion);
+            transaccion.Auditoria.IPEquipo = ((controlador.Request.HttpContext.Connection.RemoteIpAddress is null)?"": controlador.Request.HttpContext.Connection.RemoteIpAddress.ToString());                        
             return transaccion;
         }
 

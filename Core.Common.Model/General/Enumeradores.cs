@@ -38,4 +38,10 @@
       Debug
     }
 
+    public enum AccionProcessTemplate
+    { 
+        Obtener,
+        ObtenerTodos,
+        Actualizar,
+    }
 }
