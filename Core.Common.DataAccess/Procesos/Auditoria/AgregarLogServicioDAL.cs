@@ -27,7 +27,7 @@ namespace Core.Common.DataAccess.Procesos.Auditoria
             parametros.Add(ProcedimientoAlmacenado.PARAM_CODIGO_RETORNO, System.Data.DbType.Int32, direction: System.Data.ParameterDirection.ReturnValue);
 
             DBConnectionHelper databaseTemplate =
-                new DBConnectionHelper(EnumDBConnection.SqlConnection, DBConnectionString.BD_CONFIGURACIONES_DEV);
+                new DBConnectionHelper(EnumDBConnection.SqlConnection, DBConnectionString.BD_CONFIGURACIONES);
 
             databaseTemplate.Ejecutar<int>(ProcedimientoAlmacenado.PA_CON_AGREGAR_LOG_MICROSERVICIO.PA_NOMBRE, parametros);
         }
@@ -45,7 +45,7 @@ namespace Core.Common.DataAccess.Procesos.Auditoria
 
 
                 DBConnectionHelper databaseTemplate =
-                    new DBConnectionHelper(EnumDBConnection.SqlConnection, DBConnectionString.BD_CONFIGURACIONES_DEV);
+                    new DBConnectionHelper(EnumDBConnection.SqlConnection, DBConnectionString.BD_CONFIGURACIONES);
 
                 databaseTemplate.Ejecutar<int>(ProcedimientoAlmacenado.PA_CON_AGREGAR_LOG_MICROSERVICIO.PA_NOMBRE, parametros);
             }

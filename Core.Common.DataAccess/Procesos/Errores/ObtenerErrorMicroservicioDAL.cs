@@ -39,7 +39,7 @@ namespace Core.Common.DataAccess.Procesos.Errores
             parametros.Add(ProcedimientoAlmacenado.PA_CON_OBTENER_ERROR_MICROSERVICIO.PARAM_CODIGO_RESPUESTA_INTERNO, codigoInternorespuesta, System.Data.DbType.Int32);
 
             DBConnectionHelper databaseTemplate =
-                new DBConnectionHelper(EnumDBConnection.SqlConnection, DBConnectionString.BD_CONFIGURACIONES_DEV);
+                new DBConnectionHelper(EnumDBConnection.SqlConnection, DBConnectionString.BD_CONFIGURACIONES);
 
             var mensajeErrorInterno = databaseTemplate.ObtenerListaDatos<PA_CON_OBTENER_ERROR_MICROSERVICIO_RESULT>(
                 ProcedimientoAlmacenado.PA_CON_OBTENER_ERROR_MICROSERVICIO.PA_NOMBRE,

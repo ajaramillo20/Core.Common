@@ -3,7 +3,9 @@ using Core.Common.Model.Transaccion.Respuesta;
 using Core.Common.ProcessTemplate.InternalBusinessLogic;
 using Core.Common.Util.Helper.Autenticacion;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Routing;
 using Org.BouncyCastle.Asn1.Ocsp;
+using System.Transactions;
 
 namespace Core.Common.ProcessTemplate.Helper
 {
@@ -89,8 +91,11 @@ namespace Core.Common.ProcessTemplate.Helper
             where W : TransaccionBase, new()
         {
             W transaccion = new W();
+
+            ObtenerDatosEndpoint(transaccion, controlador);
+            ObtenerDatosAuditoria(transaccion, controlador);
+
             JwtHelper.CheckJWT(controlador.Request, transaccion);
-            transaccion.Auditoria.IPEquipo = ((controlador.Request.HttpContext.Connection.RemoteIpAddress is null)?"": controlador.Request.HttpContext.Connection.RemoteIpAddress.ToString());                        
             return transaccion;
         }
 
@@ -98,7 +103,7 @@ namespace Core.Common.ProcessTemplate.Helper
             where W : TransaccionBase, new()
             where Request : class
         {
-            W transaccion = new W();            
+            W transaccion = new W();
             return transaccion;
         }
 
@@ -110,6 +115,19 @@ namespace Core.Common.ProcessTemplate.Helper
             return resultado;
         }
 
-      
+        private static void ObtenerDatosEndpoint(TransaccionBase transaccion, ControllerBase controlador)
+        {
+            transaccion.Endpoint.Accion = (controlador.HttpContext is not null) ? controlador.HttpContext.GetRouteValue("action").ToString() ?? "" : "";
+            transaccion.Endpoint.Controlador = (controlador.HttpContext is not null) ? controlador.HttpContext.GetRouteValue("controller").ToString() ?? "" : "";
+            transaccion.Endpoint.Metodo = controlador.Request.Method;
+            transaccion.Endpoint.UrlBase = controlador.Request.Path;
+
+        }
+
+        private static void ObtenerDatosAuditoria(TransaccionBase transaccion, ControllerBase controlador)
+        {
+            transaccion.Auditoria.IPEquipo = ((controlador.Request.HttpContext.Connection.RemoteIpAddress is null) ? "" : controlador.Request.HttpContext.Connection.RemoteIpAddress.ToString());
+        }
+
     }
 }

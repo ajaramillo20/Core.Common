@@ -36,7 +36,7 @@ namespace Core.Common.DataAccess.Procesos.VariablesSistema
             parametros.Add(ProcedimientoAlmacenado.PA_CON_OBTENER_VARIABLE_SISTEMA.PARAM_NOMBRE_ACCION, nombreAccion, System.Data.DbType.String);
 
             DBConnectionHelper databaseTemplate =
-                new DBConnectionHelper(EnumDBConnection.SqlConnection, DBConnectionString.BD_CONFIGURACIONES_DEV);
+                new DBConnectionHelper(EnumDBConnection.SqlConnection, DBConnectionString.BD_CONFIGURACIONES);
 
             resultadoBD = databaseTemplate.ObtenerListaDatos<PA_OBTENER_VARIABLE_SISTEMA_Result>(
                 ProcedimientoAlmacenado.PA_CON_OBTENER_VARIABLE_SISTEMA.PA_NOMBRE,

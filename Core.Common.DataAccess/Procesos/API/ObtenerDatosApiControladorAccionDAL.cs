@@ -30,7 +30,7 @@ namespace Core.Common.DataAccess.Procesos.API
             parametros.Add(ProcedimientoAlmacenado.PA_API_OBTENER_DATOS_ENDPOINT.PARAM_NOMBRE_ACCION, nombreAccion, System.Data.DbType.String);
 
             DBConnectionHelper databaseTemplate = 
-                new DBConnectionHelper(EnumDBConnection.SqlConnection, DBConnectionString.BD_CONFIGURACIONES_DEV);
+                new DBConnectionHelper(EnumDBConnection.SqlConnection, DBConnectionString.BD_CONFIGURACIONES);
            
             resultadoBD = databaseTemplate.ObtenerListaDatos<PA_API_OBTENER_DATOS_ENDPOINT_Result>(
                 ProcedimientoAlmacenado.PA_API_OBTENER_DATOS_ENDPOINT.PA_NOMBRE, 
