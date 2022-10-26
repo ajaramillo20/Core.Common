@@ -2,7 +2,7 @@
 
 namespace Core.Common.Util.Helper.API
 {
-    public static class SettingsHelper
+    public static class UISettingsHelper
     {
 
         private static IConfiguration _configuration;
