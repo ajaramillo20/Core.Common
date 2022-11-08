@@ -5,7 +5,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
-    <Version>1.2.2</Version>
+    <Version>2.0.1</Version>
     <PackageIcon>logoCommonModel.jpg</PackageIcon>
   </PropertyGroup>
 
