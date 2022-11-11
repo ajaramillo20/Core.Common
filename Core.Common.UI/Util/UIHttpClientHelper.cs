@@ -51,19 +51,21 @@ namespace Core.Common.UI.Util
             }
         }
 
-        public static async Task<Resultado> Put<Resultado>(string apiRestClient, string urlEndpoint, string jsonTokenPath = "data")
+        public static async Task<Resultado> Put<Resultado>(string apiRestClient, string urlEndpoint, dynamic body, string jsonTokenPath = "data")
             where Resultado : class, new()
         {
             try
             {
                 Resultado resultado = new();
+                var json = JsonConvert.SerializeObject(body);
 
                 using (var httpClient = _httpClientFactory.CreateClient(apiRestClient))
                 {
                     var requestGet = new HttpRequestMessage
                     {
                         Method = HttpMethod.Put,
-                        RequestUri = new Uri($"{httpClient.BaseAddress.OriginalString}{urlEndpoint}")
+                        RequestUri = new Uri($"{httpClient.BaseAddress.OriginalString}{urlEndpoint}"),
+                        Content = new StringContent(json, Encoding.UTF8, "application/json")
                     };
 
                     var configAsync = await httpClient.SendAsync(requestGet).ConfigureAwait(false);
