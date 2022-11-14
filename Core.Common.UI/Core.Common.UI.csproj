@@ -5,7 +5,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
-    <Version>2.0.2</Version>
+    <Version>1.3.0</Version>
     <Authors>Carlos Silva</Authors>
     <Company>Originarsa S.A.</Company>
     <Description>Libreria que incluye modelos y componentes utiles para implmementar aplicaciones web (Frontend)</Description>
